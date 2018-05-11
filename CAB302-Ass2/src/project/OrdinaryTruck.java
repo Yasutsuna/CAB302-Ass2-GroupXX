@@ -20,4 +20,9 @@ public abstract class OrdinaryTruck extends Truck{
 			System.out.print("Overload!"); //throw exception
 		}
 	}
+	
+	public List<String> cargo() {
+		
+		return null;
+	}
 }
