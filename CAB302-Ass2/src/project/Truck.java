@@ -8,11 +8,9 @@ public abstract class Truck {
 	private int capacity;
 	private List<String> cargo;
 	
-	public Truck (int temp, int capacity, double cost, List<String> cargo) {
+	public Truck (int temp, int capacity) {
 		this.temp = temp;
 		this.capacity = capacity;
-		this.cost = cost;
-		this.cargo = cargo;
 	}
 	
 	public int getTemp() {
@@ -23,11 +21,5 @@ public abstract class Truck {
 		return capacity;
 	}
 	
-	public double getCost() {
-		return cost;
-	}
-	
-	public List<String> cargo() {
-		return cargo;
-	}
+
 }
