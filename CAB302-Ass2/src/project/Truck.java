@@ -20,4 +20,6 @@ public abstract class Truck {
 	public int getCapacity() {
 		return capacity;
 	}
+	
+
 }

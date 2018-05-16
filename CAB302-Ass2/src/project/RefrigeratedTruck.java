@@ -20,4 +20,9 @@ public abstract class RefrigeratedTruck extends Truck{
 			System.out.print("Overload!"); //throw exception
 		}
 	}
+	
+	public List<String> cargo() {
+		
+		return null;
+	}
 }
