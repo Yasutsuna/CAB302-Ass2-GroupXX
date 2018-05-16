@@ -1,19 +1,41 @@
 package project;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Scanner;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 
 
-public class GUI extends JFrame{
+public class GUI extends JFrame implements ActionListener{
 //TODO
 
+	private JButton exportBtn;
+	private JButton initializedBtn;
+	private JButton manifestsBtn;
+	private JButton salesLogBtn;
+	
+	private JTextArea resultName;
+	private JTextArea resultQty;
+	private JTextArea resultCost;
+	private JTextArea resultPrice;
+	private JTextArea resultReorderP;
+	private JTextArea resultReorderA;
+	private JTextArea resultTemp;
+	
+	String initFile = "item_properties.csv";
+	String manifestFile = "manifest.csv";
+	String salesFile = "sales_log_0.csv";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public GUI(){
+		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+		
 		//Company
 		JLabel companyName = new JLabel("SuperMart Fresh Market");
 		companyName.setHorizontalAlignment(getX()/2);
@@ -32,9 +54,16 @@ public class GUI extends JFrame{
 		topPanel.add(top, BorderLayout.SOUTH);
 		//
 		
-		//main function GUI
-   		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+		//Display area
+		JTextArea display = new JTextArea();
+		display.setEditable(false);
+		display.setBorder(border);
+		display.setText("Capital : $100,000.00");
+		//JScrollPane scrollpane = new JScrollPane(display);
+		JPanel screen = new JPanel(new BorderLayout());
+		screen.add(display,BorderLayout.CENTER);
 		
+		//main function GUI
 		JLabel name = new JLabel("Name : ");
 		name.setBorder(border);
 		JLabel qty = new JLabel("Quantity : ");
@@ -65,77 +94,118 @@ public class GUI extends JFrame{
   		JPanel Temp = new JPanel(new BorderLayout());
   		Temp.add(temp);
   		
-  		JPanel panel1 = new JPanel(new GridLayout(7,1));
-  		panel1.add(Name);
-  		panel1.add(Qty);
-  		panel1.add(Cost);
-  		panel1.add(Price);
-  		panel1.add(ReorderP);
-  		panel1.add(ReorderA);
-  		panel1.add(Temp);
+  		JPanel left = new JPanel(new GridLayout(7,1));
+  		left.add(Name);
+  		left.add(Qty);
+  		left.add(Cost);
+  		left.add(Price);
+  		left.add(ReorderP);
+  		left.add(ReorderA);
+  		left.add(Temp);
   		
-  		JTextArea resultName = new JTextArea();
+  		//TextArea
+  		resultName = new JTextArea("0");
   		resultName.setBorder(border);
-		JTextArea resultQty = new JTextArea();
+  		resultName.setEditable(false);
+		resultQty = new JTextArea("0");
 		resultQty.setBorder(border);
-  		JTextArea resultCost = new JTextArea();
+		resultQty.setEditable(false);
+  		resultCost = new JTextArea("0");
   		resultCost.setBorder(border);
-  		JTextArea resultPrice = new JTextArea();
+  		resultCost.setEditable(false);
+  		resultPrice = new JTextArea("0");
   		resultPrice.setBorder(border);
-  		JTextArea resultReorderP = new JTextArea();
+  		resultPrice.setEditable(false);
+  		resultReorderP = new JTextArea("0");
   		resultReorderP.setBorder(border);
-  		JTextArea resultReorderA = new JTextArea();
+  		resultReorderP.setEditable(false);
+  		resultReorderA = new JTextArea("0");
   		resultReorderA.setBorder(border);
-  		JTextArea resultTemp = new JTextArea();
+  		resultReorderA.setEditable(false);
+  		resultTemp = new JTextArea("0");
   		resultTemp.setBorder(border);
+  		resultTemp.setEditable(false);
   		
-  		JPanel panel2 = new JPanel(new GridLayout(7,1));
-  		panel2.add(resultName);
-  		panel2.add(resultQty);
-  		panel2.add(resultCost);
-  		panel2.add(resultPrice);
-  		panel2.add(resultReorderP);
-  		panel2.add(resultReorderA);
-  		panel2.add(resultTemp);
+  		JPanel right = new JPanel(new GridLayout(7,1));
+  		right.add(resultName);
+  		right.add(resultQty);
+  		right.add(resultCost);
+  		right.add(resultPrice);
+  		right.add(resultReorderP);
+  		right.add(resultReorderA);
+  		right.add(resultTemp);
   		
-  		JPanel bigPanel = new JPanel(new GridLayout(1,2));
-  		bigPanel.add(panel1,BorderLayout.CENTER);
-  		bigPanel.add(panel2,BorderLayout.EAST);
-
-  		JPanel studentDetail = new JPanel();
-  		studentDetail.setLayout(new GridLayout(2,2));
-  		studentDetail.add(new JLabel("Student Name : Jeffrey"));
-  		studentDetail.add(new JLabel("Student ID : N9830642"));
-    	studentDetail.add(new JLabel("Student Name : Jeffrey"));
-    	studentDetail.add(new JLabel("Student ID : N9830642"));  	
-    	add(studentDetail);
-    	
-    	JLabel B1 = new JLabel("CAB302 Team 168's CopyRight");
-		B1.setForeground(Color.WHITE);
-		B1.setHorizontalAlignment(getX()/2);
-		
-		JLabel B2 = new JLabel("Student Detail : ");
-		B2.setForeground(Color.WHITE);
-		
-		JPanel B1B2 = new JPanel(new GridLayout(2,1));
-		B1B2.add(B1);
-		B1B2.add(B2);
-		B1B2.setBackground(Color.DARK_GRAY);
-		
-		JPanel AB = new JPanel(new BorderLayout());
-		AB.add(bigPanel, BorderLayout.CENTER);
-		AB.add(B1B2, BorderLayout.SOUTH);
-		
-		JPanel C = new JPanel(new BorderLayout());
-		C.add(AB,BorderLayout.CENTER);
-		C.add(studentDetail,BorderLayout.SOUTH);
+  		JPanel functionPanel = new JPanel(new GridLayout(1,2));
+  		functionPanel.add(left);
+  		functionPanel.add(right);
+  		
+  		JPanel middlePanel = new JPanel(new GridLayout(2,1));
+  		middlePanel.add(screen,BorderLayout.CENTER);
+  		middlePanel.add(functionPanel,BorderLayout.CENTER);
+  		
+  		
+  		//button Create
+  		exportBtn =  new JButton("Export Manifests");
+  		exportBtn.addActionListener(this);
+  		initializedBtn =  new JButton("Load properties Doc");
+  		initializedBtn.addActionListener(this);
+  		manifestsBtn =  new JButton("Load  Manifests");
+  		manifestsBtn.addActionListener(this);
+  		salesLogBtn =  new JButton("Load Sales Logs");
+		salesLogBtn.addActionListener(this);
+  		
+  		//Button Panel
+  		JPanel btmrow1 = new JPanel(new GridLayout(1,3));
+  		btmrow1.add(manifestsBtn);
+  		btmrow1.add(salesLogBtn);
+  		btmrow1.add(exportBtn);
+  		
+  		JPanel btmPanel = new JPanel(new BorderLayout());
+		btmPanel.add(initializedBtn,BorderLayout.CENTER);
+		btmPanel.add(btmrow1,BorderLayout.SOUTH);
     	
     	JPanel combine = new JPanel(new BorderLayout());
     	combine.add(topPanel, BorderLayout.NORTH);
-    	combine.add(bigPanel, BorderLayout.CENTER);
-    	combine.add(C, BorderLayout.SOUTH);
+    	combine.add(middlePanel, BorderLayout.CENTER);
+    	combine.add(btmPanel, BorderLayout.SOUTH);
     		
     	add(combine);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == exportBtn) {
+			JOptionPane.showMessageDialog(null, "Get Export");
+		}else if(e.getSource() == initializedBtn) {
+			readFile(initFile);
+			initializedBtn.setEnabled(false);
+		}else if(e.getSource() == manifestsBtn) {
+			readFile(manifestFile);
+		}else if(e.getSource() == salesLogBtn) {
+			readFile(salesFile);
+		}
+		
+	}
+	
+	public void readFile(String fileName) {
+		String itemP = fileName;
+		File file = new File(itemP); //read about file
+		try {
+			Scanner input = new Scanner(file);
+			while (input.hasNext()) {
+				String data = input.next();
+				String[] values = data.split(",");
+				for(int i=0; i<values.length; i++) {
+					//values[i] = values[i].trim();
+					System.out.println(values[i]);
+				}
+			}
+			input.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	public static void main (String[] args) {
@@ -143,7 +213,9 @@ public class GUI extends JFrame{
 		s.setTitle("SuperMart Store Sales App");
 	    s.setLocationRelativeTo(null);
 	    s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    s.setExtendedState(Frame.MAXIMIZED_BOTH);
+	    //s.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	    s.setSize(500, 800);
+	    s.setLocation(30, 30);
 	    s.setVisible(true);
 	}
 }
