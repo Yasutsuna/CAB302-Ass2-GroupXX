@@ -3,7 +3,8 @@ package project;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,6 +13,9 @@ import javax.swing.border.Border;
 public class GUI extends JFrame implements ActionListener{
 //TODO
 
+	JTextArea display;
+	JScrollPane scrollpane;
+	
 	private JButton exportBtn;
 	private JButton initializedBtn;
 	private JButton manifestsBtn;
@@ -28,13 +32,17 @@ public class GUI extends JFrame implements ActionListener{
 	String initFile = "item_properties.csv";
 	String manifestFile = "manifest.csv";
 	String salesFile = "sales_log_0.csv";
+	
+	int selection = 0;
+	static double balance = 100000.0;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public GUI(){
-		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		
 		//Company
 		JLabel companyName = new JLabel("SuperMart Fresh Market");
@@ -55,13 +63,15 @@ public class GUI extends JFrame implements ActionListener{
 		//
 		
 		//Display area
-		JTextArea display = new JTextArea();
+		display = new JTextArea();
 		display.setEditable(false);
 		display.setBorder(border);
-		display.setText("Capital : $100,000.00");
-		//JScrollPane scrollpane = new JScrollPane(display);
+		//display.setText("Click the Load Properties Doc Button to Start. ");
+		scrollpane = new JScrollPane(display,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//scrollpane.setViewportView();
 		JPanel screen = new JPanel(new BorderLayout());
-		screen.add(display,BorderLayout.CENTER);
+		screen.add(scrollpane,BorderLayout.CENTER);
+		resetDisplay("Click the Load Properties Doc Button to Start.\n");
 		
 		//main function GUI
 		JLabel name = new JLabel("Name : ");
@@ -178,34 +188,95 @@ public class GUI extends JFrame implements ActionListener{
 		if(e.getSource() == exportBtn) {
 			JOptionPane.showMessageDialog(null, "Get Export");
 		}else if(e.getSource() == initializedBtn) {
+			selection = 1;
 			readFile(initFile);
 			initializedBtn.setEnabled(false);
+			//Item item = new Item(name, price, reorder, amount, temp);
 		}else if(e.getSource() == manifestsBtn) {
+			selection = 2;
 			readFile(manifestFile);
 		}else if(e.getSource() == salesLogBtn) {
+			selection = 3;
 			readFile(salesFile);
 		}
 		
 	}
 	
 	public void readFile(String fileName) {
+		BufferedReader reader = null;
+    	
+        try { 
+            reader = new BufferedReader(new FileReader(fileName));
+            
+			//Create list for holding item objects
+            List<Item> itemList = new ArrayList<Item>();
+            String line = null;
+            
+            //Skip the header line
+            //reader.readLine();
+            
+            while((line=reader.readLine())!=null) {
+                String[] itemDetail = line.split(",");
+                if(itemDetail.length > 0) {
+                	
+                	if(selection == 1) {
+	                	Item item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
+	                	itemList.add(item);
+	                	//itemFunction()
+	                	balance -= Math.round(item.getCost() * item.getAmount());
+                	}else if(selection == 2) {
+                		System.out.print("selection 2");
+                	}else if(selection == 3) {
+                		System.out.print("selection 3");
+                	}
+                }
+            }        
+            //Printing the Item
+            for(Item i : itemList) {	
+            	appendDisplay(i.getName() +"\n" + i.getCost() +"\n" + i.getPrice() +"\n" + i.getReorder() +"\n" + i.getAmount() +"\n" + i.getTemp() + "\n");
+            }
+        }catch (Exception e) {
+            e.printStackTrace(); 
+        }finally {
+        	try {
+        		reader.close();
+        	}catch(IOException ie){
+        		JOptionPane.showMessageDialog(null, "Error occured while closing the BufferedReader");
+        		ie.printStackTrace();
+        	}
+        }
+	}
+	
+/*	public void readFile(String fileName) {
 		String itemP = fileName;
 		File file = new File(itemP); //read about file
 		try {
+			
 			Scanner input = new Scanner(file);
+			input.useDelimiter(",");
+			//ArrayList<String> list = new ArrayList<String>();
 			while (input.hasNext()) {
 				String data = input.next();
 				String[] values = data.split(",");
 				for(int i=0; i<values.length; i++) {
-					//values[i] = values[i].trim();
 					System.out.println(values[i]);
 				}
+				//System.out.println(item);
 			}
 			input.close();
+		
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}*/
+	
+	private void resetDisplay(String initialText) {
+		display.setText(initialText);
+	}
+	
+	private void appendDisplay(String newText) {
+		display.setText(display.getText() + newText);
 	}
 	
 	public static void main (String[] args) {
@@ -213,9 +284,10 @@ public class GUI extends JFrame implements ActionListener{
 		s.setTitle("SuperMart Store Sales App");
 	    s.setLocationRelativeTo(null);
 	    s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    //s.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	    s.setSize(500, 800);
 	    s.setLocation(30, 30);
 	    s.setVisible(true);
+	    
+	    
 	}
 }

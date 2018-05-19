@@ -2,13 +2,15 @@ package project;
 
 public class Item {
 	private String name;
+	private double cost;
 	private double price;
 	private int reorder; //Check this
 	private int amount;
 	private int temp = 1; //Not all need this
 	
-	public Item(String name, double price, int reorder, int amount, int temp) {
+	public Item(String name,double cost, double price, int reorder, int amount, int temp) {
 		this.name = name;
+		this.cost = cost;
 		this.price = price;
 		this.reorder = reorder;
 		this.amount = amount;
@@ -17,6 +19,10 @@ public class Item {
 	
 	public String getName () {
 		return name;
+	}
+	
+	public double getCost () {
+		return cost;
 	}
 	
 	public double getPrice () {
@@ -34,6 +40,7 @@ public class Item {
 	public int getTemp () {
 		return temp;
 	}
+	
 }
 
 
