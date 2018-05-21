@@ -33,6 +33,10 @@ public class GUI extends JFrame implements ActionListener{
 	String manifestFile = "manifest.csv";
 	String salesFile = "sales_log_0.csv";
 	
+	Item item;
+	//Create list for holding item objects
+    List<Item> itemList = new ArrayList<Item>();
+	
 	int selection = 0;
 	static double balance = 100000.0;
 	
@@ -207,9 +211,6 @@ public class GUI extends JFrame implements ActionListener{
     	
         try { 
             reader = new BufferedReader(new FileReader(fileName));
-            
-			//Create list for holding item objects
-            List<Item> itemList = new ArrayList<Item>();
             String line = null;
             
             //Skip the header line
@@ -220,10 +221,9 @@ public class GUI extends JFrame implements ActionListener{
                 if(itemDetail.length > 0) {
                 	
                 	if(selection == 1) {
-	                	Item item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
+	                	item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
 	                	itemList.add(item);
-	                	//itemFunction()
-	                	balance -= Math.round(item.getCost() * item.getAmount());
+	                	initialFunction();
                 	}else if(selection == 2) {
                 		System.out.print("selection 2");
                 	}else if(selection == 3) {
@@ -231,10 +231,7 @@ public class GUI extends JFrame implements ActionListener{
                 	}
                 }
             }        
-            //Printing the Item
-            for(Item i : itemList) {	
-            	appendDisplay(i.getName() +"\n" + i.getCost() +"\n" + i.getPrice() +"\n" + i.getReorder() +"\n" + i.getAmount() +"\n" + i.getTemp() + "\n");
-            }
+            
         }catch (Exception e) {
             e.printStackTrace(); 
         }finally {
@@ -247,6 +244,13 @@ public class GUI extends JFrame implements ActionListener{
         }
 	}
 	
+	private void initialFunction() {
+		balance -= Math.round(item.getCost() * item.getAmount());
+		//Printing the Item
+        for(Item i : itemList) {	
+        	appendDisplay(i.getName() +"\n" + i.getCost() +"\n" + i.getPrice() +"\n" + i.getReorder() +"\n" + i.getAmount() +"\n" + i.getTemp() + "\n");
+        }
+	}
 /*	public void readFile(String fileName) {
 		String itemP = fileName;
 		File file = new File(itemP); //read about file
