@@ -6,14 +6,14 @@ public class Store {
 	private static Store instance = null; 
 	
 	//private List<Manifest> manifest;
-	private String[] name;
-	private int[] quantity;
-	private double capital = 100;
+	private String name;
+	private int quantity;
+	private double capital = 0;
 	
 	private Item properties;
 	//private String[] foo = {"rice", "biscuits"}; //test 
 	
-	public Store(String[] name, int[] quantity, double capital, Item properties) { //name is name, inventory is quantity
+	public Store(String name, int quantity, double capital, Item properties) { //name is name, inventory is quantity
 		this.name = name;
 		this.quantity  = quantity;
 		this.capital = capital;
