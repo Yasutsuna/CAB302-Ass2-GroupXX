@@ -29,13 +29,25 @@ public class GUI extends JFrame implements ActionListener{
 	private JTextArea resultReorderA;
 	private JTextArea resultTemp;
 	
+	public String name = new String("Name : ");
+	private String qty = new String("Quantity : ");
+	private String cost = new String("Manufacturing Cost : ");
+	private String sellprice = new String("Sell Price : ");
+	private String reorder = new String("Reorder point : ");
+	private String amount = new String("Reorder amount : ");
+	private String temp = new String("Temperature (°„C) : ");
+	
 	String initFile = "item_properties.csv";
 	String manifestFile = "manifest.csv";
 	String salesFile = "sales_log_0.csv";
 	
+	String[] itemDetail = new String[6];
+	
 	Item item;
+	Manifest manifest;
 	//Create list for holding item objects
     List<Item> itemList = new ArrayList<Item>();
+    List<Manifest> manifestList = new ArrayList<Manifest>();
 	
 	int selection = 0;
 	static double balance = 100000.0;
@@ -201,7 +213,9 @@ public class GUI extends JFrame implements ActionListener{
 			readFile(manifestFile);
 		}else if(e.getSource() == salesLogBtn) {
 			selection = 3;
-			readFile(salesFile);
+			SalesLogbox slb = new SalesLogbox();
+			slb.setVisible(true);
+			//readFile(salesFile);
 		}
 		
 	}
@@ -217,15 +231,41 @@ public class GUI extends JFrame implements ActionListener{
             //reader.readLine();
             
             while((line=reader.readLine())!=null) {
-                String[] itemDetail = line.split(",");
+                itemDetail = line.split(",",-1);
+                
+                //ArrayList<String> itd = new ArrayList<String>();
                 if(itemDetail.length > 0) {
                 	
+                	//Button clicked
                 	if(selection == 1) {
-	                	item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
-	                	itemList.add(item);
-	                	initialFunction();
+                		
+                		if(itemDetail.length<6) {
+                			item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
+            					Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
+            					Integer.parseInt(itemDetail[4]));
+		               		itemList.add(item);
+		               		initialFunction();
+                		}else {
+                				//itemDetail[5]="N/A";
+                			
+               				item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
+               						Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
+               						Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
+    		               	itemList.add(item);
+    	                	initialFunction();
+                		}
+                		
                 	}else if(selection == 2) {
-                		System.out.print("selection 2");
+                		//System.out.print("selection 2");
+                		
+                		if(itemDetail[0].contains(">")) {
+                			//skip reading the line here
+                		}else {
+                			manifest = new Manifest(itemDetail[0], Double.parseDouble(itemDetail[1]));
+                			manifestList.add(manifest);
+                			manifestsFunction();
+                		}
+                	
                 	}else if(selection == 3) {
                 		System.out.print("selection 3");
                 	}
@@ -245,12 +285,19 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	private void initialFunction() {
-		balance -= Math.round(item.getCost() * item.getAmount());
+		//balance -= Math.round(item.getCost() * item.getAmount());
 		//Printing the Item
-        for(Item i : itemList) {	
-        	appendDisplay(i.getName() +"\n" + i.getCost() +"\n" + i.getPrice() +"\n" + i.getReorder() +"\n" + i.getAmount() +"\n" + i.getTemp() + "\n");
-        }
+        //for(Item i : itemList) {	
+        	appendDisplay(name + item.getName() +"\n" + qty + "?" + "\n" + cost + item.getCost() +"\n" + 
+        	sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
+        	+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
+        //}
 	}
+	
+	private void manifestsFunction() {
+		appendDisplay(name + manifest.getName() + "\n" + qty + manifest.getCurrentleft() + "\n\n");
+	}
+	
 /*	public void readFile(String fileName) {
 		String itemP = fileName;
 		File file = new File(itemP); //read about file
@@ -290,8 +337,6 @@ public class GUI extends JFrame implements ActionListener{
 	    s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    s.setSize(500, 800);
 	    s.setLocation(30, 30);
-	    s.setVisible(true);
-	    
-	    
+	    s.setVisible(true);  
 	}
 }
