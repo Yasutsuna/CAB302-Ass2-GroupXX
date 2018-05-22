@@ -44,6 +44,7 @@ public class GUI extends JFrame implements ActionListener{
 	String[] itemDetail;
 	
 	Item item;
+	Store store;
 	Manifest manifest;
 	SalesLogbox slb;
 	Sales sales;
@@ -303,11 +304,14 @@ public class GUI extends JFrame implements ActionListener{
 		//balance -= Math.round(item.getCost() * item.getAmount());
 		//Printing the Item
         //for(Item i : itemList) {	
-        	appendDisplay(name + item.getName() +"\n" + qty + "?" + "\n" + cost + item.getCost() +"\n" + 
-        	sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
-        	+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
-        	
-        //}
+		//}
+        appendDisplay(name + item.getName() +"\n" + qty + "?" + "\n" + cost + item.getCost() +"\n" + 
+        		sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
+        		+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
+	
+        store = new Store(item.getName(), item.getAmount(), item.getCost(), balance);
+        balance -= store.getCapital();
+        System.out.println(store.getName() + store.getQuantity() + "\n" + balance);
 	}
 	
 	public void manifestsFunction() {

@@ -9,15 +9,17 @@ public class Store {
 	private String name;
 	private int quantity;
 	private double capital = 0;
+	double price;
 	
-	private Item properties;
+	//private Item properties;
 	//private String[] foo = {"rice", "biscuits"}; //test 
 	
-	public Store(String name, int quantity, double capital, Item properties) { //name is name, inventory is quantity
+	public Store(String name, int quantity, double price, double capital) { //name is name, inventory is quantity
 		this.name = name;
 		this.quantity  = quantity;
+		this.price = price;
 		this.capital = capital;
-		this.properties = properties;
+		//this.properties = properties;
 		//if you want to use, remember to use name[1] and quantity[1]
 	}
 
@@ -38,7 +40,7 @@ public class Store {
 	
 	public Store getInstance() {
 		if (instance == null) {
-			instance = new Store(name, quantity, capital, properties);
+			instance = new Store(name, quantity, price, capital);
 		}
 		return instance;
 		
@@ -51,6 +53,16 @@ public class Store {
 	public int getQuantity() {
 		return quantity;
 	}
+	
+	public double getCapital() {
+		calculate();
+		return capital;
+	}
+	
+	public void calculate() {
+		capital = price * quantity;
+	}
+
 	
 	/*public double capital () {
 		//System.out.println(properties.getName().toString());
