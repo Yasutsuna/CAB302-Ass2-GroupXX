@@ -3,16 +3,22 @@ package project;
 import java.util.List;
 
 public abstract class OrdinaryTruck extends Truck{
-	private double cost;
-	//cargo
+	private List<Manifest> cargo;
+	private double costWithTruck;
 	
-	public OrdinaryTruck (int temp, int capacity) {
-		super(temp, capacity);
+	public OrdinaryTruck (int cost, int capacity, List<Manifest> cargo) {
+		super(cost, capacity);
+		this.cargo = cargo;
 	}
 	
-	public double getCost () {
-		cost = 750 + (0.25 * this.getCapacity());
-		return cost;
+	public double getCostNormalTruck () {
+		costWithTruck = 750 + (0.25 * this.getCapacity());
+		return costWithTruck;
+	}
+	
+	
+	public List<Manifest> getCargo() {
+		return cargo;
 	}
 	
 	public void capacityCheck () { //questionable
@@ -21,8 +27,4 @@ public abstract class OrdinaryTruck extends Truck{
 		}
 	}
 	
-	public List<String> cargo() {
-		
-		return null;
-	}
 }
