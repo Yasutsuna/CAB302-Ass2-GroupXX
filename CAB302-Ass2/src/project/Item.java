@@ -14,7 +14,6 @@ public class Item {
 		this.price = price;
 		this.reorder = reorder;
 		this.amount = amount;
-		
 	}
 	
 	public Item(String name2, double cost2, double price2, int reorder2, int amount2, int temp) {

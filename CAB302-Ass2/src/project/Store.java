@@ -44,11 +44,11 @@ public class Store {
 		
 	}
 	
-	public String[] getName () {
+	public String getName () {
 		return name;
 	}
 	
-	public int[] getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 	
