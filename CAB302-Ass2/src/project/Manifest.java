@@ -2,18 +2,18 @@ package project;
 
 public class Manifest {
 	private String name;
-	private int quantity;
+	private double currentleft;
 	
-	public Manifest(String name, int quantity) {
+	public Manifest(String name, double currentleft) {
 		this.name = name;
-		this.quantity = quantity;
+		this.currentleft = currentleft;
 	}
 	
 	public String getName() {
 		return name;
 	}
 	
-	public int getQuantity( ) {
-		return quantity;
+	public double getCurrentleft( ) {
+		return currentleft;
 	}
 }

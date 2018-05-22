@@ -29,25 +29,29 @@ public class GUI extends JFrame implements ActionListener{
 	private JTextArea resultReorderA;
 	private JTextArea resultTemp;
 	
-	public String name = new String("Name : ");
-	private String qty = new String("Quantity : ");
-	private String cost = new String("Manufacturing Cost : ");
-	private String sellprice = new String("Sell Price : ");
-	private String reorder = new String("Reorder point : ");
-	private String amount = new String("Reorder amount : ");
-	private String temp = new String("Temperature (°„C) : ");
+	String name = new String("Name : ");
+	String qty = new String("Quantity : ");
+	String cost = new String("Manufacturing Cost : ");
+	String sellprice = new String("Sell Price : ");
+	String reorder = new String("Reorder point : ");
+	String amount = new String("Reorder amount : ");
+	String temp = new String("Temperature (°„C) : ");
 	
 	String initFile = "item_properties.csv";
 	String manifestFile = "manifest.csv";
 	String salesFile = "sales_log_0.csv";
 	
-	String[] itemDetail = new String[6];
+	String[] itemDetail;
 	
 	Item item;
 	Manifest manifest;
+	SalesLogbox slb;
+	Sales sales;
+	//Store store;
 	//Create list for holding item objects
     List<Item> itemList = new ArrayList<Item>();
     List<Manifest> manifestList = new ArrayList<Manifest>();
+    List<Sales> salesList = new ArrayList<Sales>();
 	
 	int selection = 0;
 	static double balance = 100000.0;
@@ -202,6 +206,12 @@ public class GUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == exportBtn) {
+			try {
+				exportFile();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			JOptionPane.showMessageDialog(null, "Get Export");
 		}else if(e.getSource() == initializedBtn) {
 			selection = 1;
@@ -213,13 +223,29 @@ public class GUI extends JFrame implements ActionListener{
 			readFile(manifestFile);
 		}else if(e.getSource() == salesLogBtn) {
 			selection = 3;
-			SalesLogbox slb = new SalesLogbox();
+			slb = new SalesLogbox();
 			slb.setVisible(true);
-			//readFile(salesFile);
 		}
 		
 	}
 	
+	private void exportFile() throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		PrintWriter pw = new PrintWriter(new File("Manifest.csv"));
+        StringBuilder sb = new StringBuilder();
+        sb.append(">Refrigarated");
+        sb.append("\n");
+        sb.append(item.getName());
+        sb.append(',');
+        sb.append(item.getAmount());
+        sb.append("\n");
+        sb.append(">Ordinary");
+        sb.append("\n");
+
+        pw.write(sb.toString());
+        pw.close();
+	}
+
 	public void readFile(String fileName) {
 		BufferedReader reader = null;
     	
@@ -227,36 +253,25 @@ public class GUI extends JFrame implements ActionListener{
             reader = new BufferedReader(new FileReader(fileName));
             String line = null;
             
-            //Skip the header line
-            //reader.readLine();
-            
             while((line=reader.readLine())!=null) {
                 itemDetail = line.split(",",-1);
-                
-                //ArrayList<String> itd = new ArrayList<String>();
                 if(itemDetail.length > 0) {
-                	
                 	//Button clicked
                 	if(selection == 1) {
-                		
                 		if(itemDetail.length<6) {
                 			item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
             					Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
             					Integer.parseInt(itemDetail[4]));
 		               		itemList.add(item);
 		               		initialFunction();
-                		}else {
-                				//itemDetail[5]="N/A";
-                			
+                		}else {                			
                				item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
                						Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
                						Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
     		               	itemList.add(item);
     	                	initialFunction();
                 		}
-                		
                 	}else if(selection == 2) {
-                		//System.out.print("selection 2");
                 		
                 		if(itemDetail[0].contains(">")) {
                 			//skip reading the line here
@@ -265,13 +280,13 @@ public class GUI extends JFrame implements ActionListener{
                 			manifestList.add(manifest);
                 			manifestsFunction();
                 		}
-                	
                 	}else if(selection == 3) {
-                		System.out.print("selection 3");
+                		//sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]));
+                		//salesList.add(sales);
+                		//salesFunction();
                 	}
                 }
-            }        
-            
+            }      
         }catch (Exception e) {
             e.printStackTrace(); 
         }finally {
@@ -283,50 +298,32 @@ public class GUI extends JFrame implements ActionListener{
         	}
         }
 	}
-	
-	private void initialFunction() {
+
+	public void initialFunction() {
 		//balance -= Math.round(item.getCost() * item.getAmount());
 		//Printing the Item
         //for(Item i : itemList) {	
         	appendDisplay(name + item.getName() +"\n" + qty + "?" + "\n" + cost + item.getCost() +"\n" + 
         	sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
         	+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
+        	
         //}
 	}
 	
-	private void manifestsFunction() {
+	public void manifestsFunction() {
 		appendDisplay(name + manifest.getName() + "\n" + qty + manifest.getCurrentleft() + "\n\n");
 	}
 	
-/*	public void readFile(String fileName) {
-		String itemP = fileName;
-		File file = new File(itemP); //read about file
-		try {
-			
-			Scanner input = new Scanner(file);
-			input.useDelimiter(",");
-			//ArrayList<String> list = new ArrayList<String>();
-			while (input.hasNext()) {
-				String data = input.next();
-				String[] values = data.split(",");
-				for(int i=0; i<values.length; i++) {
-					System.out.println(values[i]);
-				}
-				//System.out.println(item);
-			}
-			input.close();
-		
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	/*private void salesFunction() {
+		// TODO Auto-generated method stub
+		appendDisplay(name + sales.getName() + "\n" + qty + sales.getQty());
 	}*/
 	
-	private void resetDisplay(String initialText) {
+	public void resetDisplay(String initialText) {
 		display.setText(initialText);
 	}
 	
-	private void appendDisplay(String newText) {
+	public void appendDisplay(String newText) {
 		display.setText(display.getText() + newText);
 	}
 	

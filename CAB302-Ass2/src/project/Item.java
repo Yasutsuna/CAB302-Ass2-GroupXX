@@ -6,7 +6,7 @@ public class Item {
 	private double price;
 	private int reorder; //Check this
 	private int amount;
-	private int temp = 1; //Not all need this
+	private int temp = 0; //Not all need this
 	
 	public Item(String name,double cost, double price, int reorder, int amount) {
 		this.name = name;
@@ -50,7 +50,6 @@ public class Item {
 	public int getTemp () {
 		return temp;
 	}
-	
 }
 
 

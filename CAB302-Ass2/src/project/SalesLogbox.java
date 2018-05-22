@@ -1,11 +1,14 @@
 package project;
 
-import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -17,6 +20,7 @@ public class SalesLogbox extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	
 	GUI g;
+	Sales sales;
 	
 	JButton okBtn;
 	JButton closeBtn;
@@ -33,6 +37,9 @@ public class SalesLogbox extends JFrame implements ActionListener{
 	String sales2 = "sales_log_2.csv";
 	String sales3 = "sales_log_3.csv";
 	String sales4 = "sales_log_4.csv";
+	
+	
+	List<Sales> salesList = new ArrayList<Sales>();
 	
 	public SalesLogbox(){
 		sl0 = new JRadioButton("Sales Log 0");
@@ -82,21 +89,55 @@ public class SalesLogbox extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == okBtn) {
+			super.dispose();
 			if(sl0.isSelected()) {
-				g.readFile(sales0);
+				readFile(sales0);
 			}else if(sl1.isSelected()) {
-				g.readFile(sales1);
+				readFile(sales1);
 			}else if(sl2.isSelected()) {
-				g.readFile(sales2);
+				readFile(sales2);
 			}else if(sl3.isSelected()) {
-				g.readFile(sales3);
+				readFile(sales3);
 			}else if(sl4.isSelected()) {
-				g.readFile(sales4);
+				readFile(sales4);
 			}else {
 				JOptionPane.showMessageDialog(null, "Please select one of the selection");
 			}
 		}else {
 			super.dispose();
 		}
+	}
+	
+	private void readFile(String fileName) {
+		// TODO Auto-generated method stub
+		BufferedReader reader = null;
+		String[] itemDetail;
+        try { 
+            reader = new BufferedReader(new FileReader(fileName));
+            String line = null;
+            
+            while((line=reader.readLine())!=null) {
+                itemDetail = line.split(",",-1);
+                if(itemDetail.length > 0) {
+                	sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]));
+            		salesList.add(sales);
+            		salesFunction();
+                }
+            }    
+        }catch (Exception e) {
+            e.printStackTrace(); 
+        }finally {
+        	try {
+        		reader.close();
+        	}catch(IOException ie){
+        		JOptionPane.showMessageDialog(null, "Error occured while closing the BufferedReader");
+        		ie.printStackTrace();
+        	}
+        }
+	}
+
+	private void salesFunction(){
+		// TODO Auto-generated method stub
+		System.out.println(sales.getName() + "\n" + sales.getQty());
 	}
 }
