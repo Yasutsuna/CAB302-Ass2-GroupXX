@@ -17,6 +17,8 @@ public class Stock {
 		this.quantity = quantity;
 	}
 	
+	
+	
 	//how to know what goes where?
 	public String[] getName (){
 		return name;
