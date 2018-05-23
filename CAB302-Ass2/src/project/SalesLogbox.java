@@ -37,11 +37,13 @@ public class SalesLogbox extends JFrame implements ActionListener{
 	String sales2 = "sales_log_2.csv";
 	String sales3 = "sales_log_3.csv";
 	String sales4 = "sales_log_4.csv";
+	String fileName;
 	
 	
 	List<Sales> salesList = new ArrayList<Sales>();
 	
 	public SalesLogbox(){
+		
 		sl0 = new JRadioButton("Sales Log 0");
 		sl1 = new JRadioButton("Sales Log 1");
 		sl2 = new JRadioButton("Sales Log 2");
@@ -92,6 +94,8 @@ public class SalesLogbox extends JFrame implements ActionListener{
 			super.dispose();
 			if(sl0.isSelected()) {
 				readFile(sales0);
+				//passFilename(sales0);
+				//System.out.println(sales.getName());
 			}else if(sl1.isSelected()) {
 				readFile(sales1);
 			}else if(sl2.isSelected()) {
@@ -106,6 +110,14 @@ public class SalesLogbox extends JFrame implements ActionListener{
 		}else {
 			super.dispose();
 		}
+	}
+	
+	public void passFilename(String fileName) {
+		this.fileName = fileName;
+	}
+	
+	public String getFilename() {
+		return fileName;
 	}
 	
 	private void readFile(String fileName) {

@@ -39,7 +39,7 @@ public class GUI extends JFrame implements ActionListener{
 	
 	String initFile = "item_properties.csv";
 	String manifestFile = "manifest.csv";
-	String salesFile = "sales_log_0.csv";
+	String salesFile;
 	
 	String[] itemDetail;
 	
@@ -48,11 +48,13 @@ public class GUI extends JFrame implements ActionListener{
 	Manifest manifest;
 	SalesLogbox slb;
 	Sales sales;
+	Stock stock;
 	//Store store;
 	//Create list for holding item objects
     List<Item> itemList = new ArrayList<Item>();
     List<Manifest> manifestList = new ArrayList<Manifest>();
     List<Sales> salesList = new ArrayList<Sales>();
+    List<Store> storeList = new ArrayList<Store>();
 	
 	int selection = 0;
 	static double balance = 100000.0;
@@ -92,7 +94,8 @@ public class GUI extends JFrame implements ActionListener{
 		//scrollpane.setViewportView();
 		JPanel screen = new JPanel(new BorderLayout());
 		screen.add(scrollpane,BorderLayout.CENTER);
-		resetDisplay("Click the Load Properties Doc Button to Start.\n");
+		resetDisplay("Started Capital : " + balance + "\nClick the Load Properties Doc Button to Start.\n"
+				+ "------------------------------------------------------------------------\n");
 		
 		//main function GUI
 		JLabel name = new JLabel("Name : ");
@@ -170,9 +173,9 @@ public class GUI extends JFrame implements ActionListener{
   		functionPanel.add(left);
   		functionPanel.add(right);
   		
-  		JPanel middlePanel = new JPanel(new GridLayout(2,1));
+  		JPanel middlePanel = new JPanel(new GridLayout(1,1));
   		middlePanel.add(screen,BorderLayout.CENTER);
-  		middlePanel.add(functionPanel,BorderLayout.CENTER);
+  		//middlePanel.add(functionPanel,BorderLayout.CENTER);
   		
   		
   		//button Create
@@ -218,14 +221,18 @@ public class GUI extends JFrame implements ActionListener{
 			selection = 1;
 			readFile(initFile);
 			initializedBtn.setEnabled(false);
+			printingCapital();
 			//Item item = new Item(name, price, reorder, amount, temp);
 		}else if(e.getSource() == manifestsBtn) {
 			selection = 2;
-			readFile(manifestFile);
+			manifestsFunction();
+			//readFile(manifestFile);
 		}else if(e.getSource() == salesLogBtn) {
 			selection = 3;
 			slb = new SalesLogbox();
 			slb.setVisible(true);
+			//System.out.println(slb.getFilename());
+			//readFile(slb.getFilename());
 		}
 		
 	}
@@ -277,14 +284,13 @@ public class GUI extends JFrame implements ActionListener{
                 		if(itemDetail[0].contains(">")) {
                 			//skip reading the line here
                 		}else {
-                			manifest = new Manifest(itemDetail[0], Double.parseDouble(itemDetail[1]));
+                			manifest = new Manifest(itemDetail[0], Integer.parseInt(itemDetail[1]));
                 			manifestList.add(manifest);
                 			manifestsFunction();
                 		}
-                	}else if(selection == 3) {
-                		//sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]));
-                		//salesList.add(sales);
-                		//salesFunction();
+                	}else if(selection == 3){
+                		System.out.println("updated");
+                		System.out.println(slb.getFilename());
                 	}
                 }
             }      
@@ -300,22 +306,34 @@ public class GUI extends JFrame implements ActionListener{
         }
 	}
 
+	public void printingCapital() {
+		appendDisplay( "--------------------------------------\n" + 
+						"Current Capital : " + balance + 
+						"\n--------------------------------------\n");
+		
+		appendDisplay("\n-----------------------------Store-----------------------------");
+		for(Store s: storeList) {
+			appendDisplay("\nname: " + s.getName() + "\nquantity: " + s.getQuantity() + "\ntotal cost: " + s.getCapital() + "\n");
+		}
+	}
+	
 	public void initialFunction() {
-		//balance -= Math.round(item.getCost() * item.getAmount());
+		store = new Store(item.getName(), item.getAmount(), item.getCost(), balance);
+        storeList.add(store);
+		
 		//Printing the Item
-        //for(Item i : itemList) {	
-		//}
-        appendDisplay(name + item.getName() +"\n" + qty + "?" + "\n" + cost + item.getCost() +"\n" + 
+        appendDisplay(name + item.getName() +"\n" + qty + store.getQuantity() + "\n" + cost + item.getCost() +"\n" + 
         		sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
         		+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
 	
-        store = new Store(item.getName(), item.getAmount(), item.getCost(), balance);
         balance -= store.getCapital();
-        System.out.println(store.getName() + store.getQuantity() + "\n" + balance);
 	}
 	
 	public void manifestsFunction() {
-		appendDisplay(name + manifest.getName() + "\n" + qty + manifest.getCurrentleft() + "\n\n");
+		//appendDisplay(name + manifest.getName() + "\n" + qty + manifest.getCurrentleft() + "\n\n");
+		//stock = new Stock(store.getQuantity(),item.getReorder(),sales.getQty(),"Refrigarated");
+		//stock.classification();
+		//System.out.println(stock.getStoreInv() + stock.getTruckCargo());
 	}
 	
 	/*private void salesFunction() {

@@ -1,35 +1,48 @@
 package project;
 
-import java.util.List;
-
 public class Stock {
-	private List<Manifest> storeInventory;
-	private List<String> stockOrders;
-	private List<String> salesLogs;
-	private List<String> truckCargo;
+	private  int storeInventory; //current store
+	private  int stockOrders; // reorder point
+	private double salesLogs; //sales qty?price?
+	private String truckCargo; //truck
 	
-	private String[] name;
-	private int[] quantity;
+	Item item;
+	Store store;
+	Sales sales;
 	
+	/*public Stock() {	
+		classification();
+	}*/
 	
-	public Stock(String[] name, int[] quantity) {	
-		this.name = name;
-		this.quantity = quantity;
+	public Stock(int storeInventory, int stockOrders , double salesLogs, String truckCargo) {	
+		this.storeInventory = storeInventory;
+		this.stockOrders = stockOrders;
+		this.salesLogs = salesLogs;
+		this.truckCargo = truckCargo;	
+		//classification();
 	}
-	
-	
-	
+
+	public void classification() {
+		// TODO Auto-generated method stub
+		System.out.println(storeInventory + stockOrders + salesLogs);
+	}
+
 	//how to know what goes where?
-	public String[] getName (){
-		return name;
+	public int getStoreInv(){
+		return storeInventory;
 	}
 	
-	public int[] getQuantity() {
-		return quantity;
+	public int getStockOrd() {
+		return stockOrders;
 	}
 	
+	public double getSalesLog() {
+		return salesLogs;
+	}
 	
-	//maybe store it at GUI? then bring it forward
+	public String getTruckCargo() {
+		return truckCargo;
+	}
 }
 
 

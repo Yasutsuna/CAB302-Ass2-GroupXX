@@ -1,7 +1,5 @@
 package project;
 
-import java.util.List;
-
 public class Store {
 	private static Store instance = null; 
 	
@@ -22,21 +20,6 @@ public class Store {
 		//this.properties = properties;
 		//if you want to use, remember to use name[1] and quantity[1]
 	}
-
-	/*public Store(Item properties) {
-		this.properties = properties;
-		
-		//((Item) properties).getName();
-	}*/
-	
-//	public Store(String[] name, int[] quantity, double capital,Item properties) { //name is name, inventory is quantity
-//		this.name = name;
-//		this.quantity  = quantity;
-//		this.capital = capital;
-//		this.properties = properties;
-//		//if you want to use, remember to use name[1] and quantity[1]
-//	}
-	
 	
 	public Store getInstance() {
 		if (instance == null) {
