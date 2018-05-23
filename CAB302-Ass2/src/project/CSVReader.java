@@ -1,13 +1,15 @@
 package project;
 
-import java.io.BufferedReader; 
-import java.io.FileReader; 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException; 
 
 public class CSVReader { 
 
     public static void main(String[] args) { 
         try { 
-            BufferedReader reader = new BufferedReader(new FileReader("a.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("item_properties.csv"));
             reader.readLine();
             String line = null; 
             while((line=reader.readLine())!=null){ 
@@ -21,7 +23,7 @@ public class CSVReader {
             e.printStackTrace(); 
         } 
     } 
-
+    
 }
 
 //CSVWriter (Not needed atm but reference)

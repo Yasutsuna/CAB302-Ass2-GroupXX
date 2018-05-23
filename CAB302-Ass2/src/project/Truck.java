@@ -59,8 +59,8 @@ public abstract class Truck {
 	public double getCost() {
 		int cost = 0;
 		for (Sales i : cargo) {
-			//cost = cost + i.getQty() * i.getPrice(); //drag the price shoud be fine.
-			cost = cost + i.getQty() * 3;
+			cost = cost + i.getQty() * i.getPrice(); //drag the price shoud be fine.
+			//cost = cost + i.getQty() * 3;
 		}
 		return cost;
 	}

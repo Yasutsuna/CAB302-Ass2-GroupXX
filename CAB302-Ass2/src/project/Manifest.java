@@ -6,6 +6,8 @@ public class Manifest {
 	private int currentleft;
 	
 	Stock stock;
+	//RefrigeratedTruck rtruck ;
+	//Truck truck;
 	
 	public Manifest(String name, int currentleft) {
 		this.name = name;
@@ -18,5 +20,9 @@ public class Manifest {
 	
 	public double getCurrentleft( ) {
 		return currentleft;
+	}
+	
+	private void loadingTruck() {
+		//truck = new RefrigeratedTruck();
 	}
 }
