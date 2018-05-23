@@ -232,7 +232,7 @@ public class GUI extends JFrame implements ActionListener{
 			slb = new SalesLogbox(this);
 			slb.setVisible(true);
 		}
-		
+		//
 	}
 	
 	private void exportFile() throws FileNotFoundException {
