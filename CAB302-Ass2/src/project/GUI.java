@@ -48,7 +48,7 @@ public class GUI extends JFrame implements ActionListener{
 	Manifest manifest;
 	SalesLogbox slb;
 	Sales sales;
-	Stock stock;
+	Stock2 stock;
 	//Store store;
 	//Create list for holding item objects
     List<Item> itemList = new ArrayList<Item>();
@@ -226,13 +226,11 @@ public class GUI extends JFrame implements ActionListener{
 		}else if(e.getSource() == manifestsBtn) {
 			selection = 2;
 			manifestsFunction();
-			//readFile(manifestFile);
+			//stock = new Stock(store.getQuantity(),item.getReorder(),0,"Refrigarated");
 		}else if(e.getSource() == salesLogBtn) {
 			selection = 3;
-			slb = new SalesLogbox();
+			slb = new SalesLogbox(this);
 			slb.setVisible(true);
-			//System.out.println(slb.getFilename());
-			//readFile(slb.getFilename());
 		}
 		
 	}
@@ -289,8 +287,9 @@ public class GUI extends JFrame implements ActionListener{
                 			manifestsFunction();
                 		}
                 	}else if(selection == 3){
-                		System.out.println("updated");
-                		System.out.println(slb.getFilename());
+                		sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]));
+                		salesList.add(sales);
+                		salesFunction();
                 	}
                 }
             }      
@@ -330,16 +329,16 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public void manifestsFunction() {
-		//appendDisplay(name + manifest.getName() + "\n" + qty + manifest.getCurrentleft() + "\n\n");
-		//stock = new Stock(store.getQuantity(),item.getReorder(),sales.getQty(),"Refrigarated");
-		//stock.classification();
-		//System.out.println(stock.getStoreInv() + stock.getTruckCargo());
+		//stock = new Stock(balance,store.getName(),store.getQuantity(),item.getName(),item.getCost(),item.getAmount(),item.getReorder(),sales.getName(),item.getPrice(),sales.getQty());
+		stock = new Stock2(balance,storeList,itemList,salesList);
 	}
 	
-	/*private void salesFunction() {
+	public void salesFunction(){
 		// TODO Auto-generated method stub
-		appendDisplay(name + sales.getName() + "\n" + qty + sales.getQty());
-	}*/
+		for(Sales s : salesList) {
+			System.out.println(s.getName() + "\n" + s.getQty());
+		}
+	}
 	
 	public void resetDisplay(String initialText) {
 		display.setText(initialText);
