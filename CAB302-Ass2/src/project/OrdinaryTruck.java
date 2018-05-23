@@ -3,10 +3,13 @@ package project;
 import java.util.List;
 
 public abstract class OrdinaryTruck extends Truck{
-	private List<Manifest> cargo;
+	
+	
 	private double costWithTruck;
 	
-	public OrdinaryTruck (int cost, int capacity, List<Manifest> cargo) {
+	
+	
+	/*public OrdinaryTruck (int cost, int capacity, List<Manifest> cargo) {
 		super(cost, capacity);
 		this.cargo = cargo;
 	}
@@ -25,6 +28,22 @@ public abstract class OrdinaryTruck extends Truck{
 		if (this.getCapacity() > 1000) {
 			System.out.print("Overload!"); //throw exception
 		}
+	}*/
+
+	
+	/*public OrdinaryTruck(String name, int quantity, double price, int temperature) {
+		super(name, quantity, price, temperature);
+		capacity = 1000;
+	}
+	*/
+	
+	public OrdinaryTruck() {
+		capacity = 1000;
 	}
 	
+	@Override
+	public double getCost() {
+		costWithTruck = 750 + (0.25 * spaceUsed() + super.getCost());
+		return costWithTruck;
+	}
 }
