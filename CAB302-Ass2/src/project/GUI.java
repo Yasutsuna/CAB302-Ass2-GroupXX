@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 
 public class GUI extends JFrame implements ActionListener{
@@ -15,31 +16,27 @@ public class GUI extends JFrame implements ActionListener{
 
 	JTextArea display;
 	JScrollPane scrollpane;
+	DefaultTableModel model;
+	String[] header = {"Name","Quantity","Manufacturing Cost","Sell Price","Reorder Point","Reorder Amount","Temperature(°„C)"};	
 	
 	private JButton exportBtn;
 	private JButton initializedBtn;
 	private JButton manifestsBtn;
 	private JButton salesLogBtn;
 	
-	private JTextArea resultName;
-	private JTextArea resultQty;
-	private JTextArea resultCost;
-	private JTextArea resultPrice;
-	private JTextArea resultReorderP;
-	private JTextArea resultReorderA;
-	private JTextArea resultTemp;
+	private JTable table;
+	DefaultTableModel tableModel;
 	
-	String name = new String("Name : ");
-	String qty = new String("Quantity : ");
-	String cost = new String("Manufacturing Cost : ");
-	String sellprice = new String("Sell Price : ");
-	String reorder = new String("Reorder point : ");
-	String amount = new String("Reorder amount : ");
-	String temp = new String("Temperature (°„C) : ");
+	String name;
+	int qty;
+	double cost;
+	double sellprice;
+	int reorder;
+	int amount;
+	int temp;
 	
 	String initFile = "item_properties.csv";
 	String manifestFile = "manifest.csv";
-	String salesFile;
 	
 	String[] itemDetail;
 	
@@ -49,7 +46,7 @@ public class GUI extends JFrame implements ActionListener{
 	SalesLogbox slb;
 	Sales sales;
 	Stock2 stock;
-	//Store store;
+
 	//Create list for holding item objects
     List<Item> itemList = new ArrayList<Item>();
     List<Manifest> manifestList = new ArrayList<Manifest>();
@@ -67,7 +64,7 @@ public class GUI extends JFrame implements ActionListener{
 	public GUI(){
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		
-		//Company
+		//Company--------------------------------------
 		JLabel companyName = new JLabel("SuperMart Fresh Market");
 		companyName.setHorizontalAlignment(getX()/2);
 		JLabel A = new JLabel("Sales App: ");
@@ -83,9 +80,9 @@ public class GUI extends JFrame implements ActionListener{
 		
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(top, BorderLayout.SOUTH);
-		//
+		//---------------------------------------------
 		
-		//Display area
+		//Display area---------------------------------
 		display = new JTextArea();
 		display.setEditable(false);
 		display.setBorder(border);
@@ -96,87 +93,24 @@ public class GUI extends JFrame implements ActionListener{
 		screen.add(scrollpane,BorderLayout.CENTER);
 		resetDisplay("Started Capital : " + balance + "\nClick the Load Properties Doc Button to Start.\n"
 				+ "------------------------------------------------------------------------\n");
+		//--------------------------------------------
 		
-		//main function GUI
-		JLabel name = new JLabel("Name : ");
-		name.setBorder(border);
-		JLabel qty = new JLabel("Quantity : ");
-		qty.setBorder(border);
-		JLabel cost = new JLabel("Manufacturing Cost : ");
-		cost.setBorder(border);
-		JLabel price = new JLabel("Sell Price : ");
-		price.setBorder(border);
-		JLabel reorderP = new JLabel("Reorder Point : ");
-		reorderP.setBorder(border);
-		JLabel reorderA = new JLabel("Reorder Amount : ");
-		reorderA.setBorder(border);
-		JLabel temp = new JLabel("Temperature (°„C): ");
-		temp.setBorder(border);
 		
-		JPanel Name = new JPanel(new BorderLayout());
-		Name.add(name);
-  		JPanel Qty = new JPanel(new BorderLayout());
-  		Qty.add(qty);
-  		JPanel Cost = new JPanel(new BorderLayout());
-  		Cost.add(cost);
-  		JPanel Price = new JPanel(new BorderLayout());
-  		Price.add(price);
-  		JPanel ReorderP = new JPanel(new BorderLayout());
-  		ReorderP.add(reorderP);
-  		JPanel ReorderA = new JPanel(new BorderLayout());
-  		ReorderA.add(reorderA);
-  		JPanel Temp = new JPanel(new BorderLayout());
-  		Temp.add(temp);
+		//main GUI------------------------------------
+		//Create for the data inserting
+		//model = new DefaultTableModel(data,header);
+		tableModel = new DefaultTableModel(header,0);
+  		table = new JTable(tableModel);
+  		table.setPreferredScrollableViewportSize(getMaximumSize());
+  		JScrollPane pane = new JScrollPane();
+  		pane.setViewportView(table);
   		
-  		JPanel left = new JPanel(new GridLayout(7,1));
-  		left.add(Name);
-  		left.add(Qty);
-  		left.add(Cost);
-  		left.add(Price);
-  		left.add(ReorderP);
-  		left.add(ReorderA);
-  		left.add(Temp);
+  		//store.setData((DefaultTableModel)table.getModel());
   		
-  		//TextArea
-  		resultName = new JTextArea("0");
-  		resultName.setBorder(border);
-  		resultName.setEditable(false);
-		resultQty = new JTextArea("0");
-		resultQty.setBorder(border);
-		resultQty.setEditable(false);
-  		resultCost = new JTextArea("0");
-  		resultCost.setBorder(border);
-  		resultCost.setEditable(false);
-  		resultPrice = new JTextArea("0");
-  		resultPrice.setBorder(border);
-  		resultPrice.setEditable(false);
-  		resultReorderP = new JTextArea("0");
-  		resultReorderP.setBorder(border);
-  		resultReorderP.setEditable(false);
-  		resultReorderA = new JTextArea("0");
-  		resultReorderA.setBorder(border);
-  		resultReorderA.setEditable(false);
-  		resultTemp = new JTextArea("0");
-  		resultTemp.setBorder(border);
-  		resultTemp.setEditable(false);
-  		
-  		JPanel right = new JPanel(new GridLayout(7,1));
-  		right.add(resultName);
-  		right.add(resultQty);
-  		right.add(resultCost);
-  		right.add(resultPrice);
-  		right.add(resultReorderP);
-  		right.add(resultReorderA);
-  		right.add(resultTemp);
-  		
-  		JPanel functionPanel = new JPanel(new GridLayout(1,2));
-  		functionPanel.add(left);
-  		functionPanel.add(right);
-  		
-  		JPanel middlePanel = new JPanel(new GridLayout(1,1));
-  		middlePanel.add(screen,BorderLayout.CENTER);
-  		//middlePanel.add(functionPanel,BorderLayout.CENTER);
-  		
+  		JPanel middlePanel = new JPanel(new GridLayout(2,1));
+  		middlePanel.add(screen,BorderLayout.NORTH);
+  		middlePanel.add(pane,BorderLayout.CENTER);
+  		//--------------------------------------------
   		
   		//button Create
   		exportBtn =  new JButton("Export Manifests");
@@ -222,6 +156,18 @@ public class GUI extends JFrame implements ActionListener{
 			readFile(initFile);
 			initializedBtn.setEnabled(false);
 			printingCapital();
+			for(int i=0; i<itemList.size();i++) {
+	  			name = itemList.get(i).getName();
+	  			qty = itemList.get(i).getAmount();
+	  			cost = itemList.get(i).getCost();
+	  			sellprice = itemList.get(i).getPrice();
+	  			reorder = itemList.get(i).getReorder();
+	  			amount = itemList.get(i).getAmount();
+	  			temp = itemList.get(i).getTemp();
+	  			
+	  			Object[] objs = {name,qty,cost,sellprice,reorder,amount,temp};
+	  	  		tableModel.addRow(objs);
+	  		}
 			//Item item = new Item(name, price, reorder, amount, temp);
 		}else if(e.getSource() == manifestsBtn) {
 			selection = 2;
@@ -310,10 +256,10 @@ public class GUI extends JFrame implements ActionListener{
 						"Current Capital : " + balance + 
 						"\n--------------------------------------\n");
 		
-		appendDisplay("\n-----------------------------Store-----------------------------");
-		for(Store s: storeList) {
-			appendDisplay("\nname: " + s.getName() + "\nquantity: " + s.getQuantity() + "\ntotal cost: " + s.getCapital() + "\n");
-		}
+//		appendDisplay("\n-----------------------------Store-----------------------------");
+//		for(Store s: storeList) {
+//			appendDisplay("\nname: " + s.getName() + "\nquantity: " + s.getQuantity() + "\ntotal cost: " + s.getCapital() + "\n");
+//		}
 	}
 	
 	public void initialFunction() {
@@ -321,10 +267,10 @@ public class GUI extends JFrame implements ActionListener{
         storeList.add(store);
 		
 		//Printing the Item
-        appendDisplay(name + item.getName() +"\n" + qty + store.getQuantity() + "\n" + cost + item.getCost() +"\n" + 
-        		sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
-        		+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
-	
+//        appendDisplay(name + item.getName() +"\n" + qty + store.getQuantity() + "\n" + cost + item.getCost() +"\n" + 
+//        		sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
+//        		+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
+//	
         balance -= store.getCapital();
 	}
 	
@@ -353,7 +299,7 @@ public class GUI extends JFrame implements ActionListener{
 		s.setTitle("SuperMart Store Sales App");
 	    s.setLocationRelativeTo(null);
 	    s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    s.setSize(500, 800);
+	    s.setSize(1000, 800);
 	    s.setLocation(30, 30);
 	    s.setVisible(true);  
 	}

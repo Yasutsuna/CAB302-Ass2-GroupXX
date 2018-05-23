@@ -45,7 +45,6 @@ public class Store {
 	public void calculate() {
 		capital = price * quantity;
 	}
-
 	
 	/*public double capital () {
 		//System.out.println(properties.getName().toString());
@@ -65,6 +64,4 @@ public class Store {
 		}
 		return capital;
 	*/
-
-	
 }
