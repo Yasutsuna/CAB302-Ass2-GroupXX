@@ -156,14 +156,14 @@ public class GUI extends JFrame implements ActionListener{
 			readFile(initFile);
 			initializedBtn.setEnabled(false);
 			printingCapital();
-			for(int i=0; i<itemList.size();i++) {
-	  			name = itemList.get(i).getName();
-	  			qty = itemList.get(i).getAmount();
-	  			cost = itemList.get(i).getCost();
-	  			sellprice = itemList.get(i).getPrice();
-	  			reorder = itemList.get(i).getReorder();
-	  			amount = itemList.get(i).getAmount();
-	  			temp = itemList.get(i).getTemp();
+			for(int i=0; i<storeList.size();i++) {
+	  			name = storeList.get(i).getName();
+	  			qty = storeList.get(i).getQuantity();
+	  			cost = storeList.get(i).getCost();
+	  			sellprice = storeList.get(i).getPrice();
+	  			reorder = storeList.get(i).getReorder();
+	  			amount = storeList.get(i).getAmount();
+	  			temp = storeList.get(i).getTemp();
 	  			
 	  			Object[] objs = {name,qty,cost,sellprice,reorder,amount,temp};
 	  	  		tableModel.addRow(objs);
@@ -263,7 +263,7 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public void initialFunction() {
-		store = new Store(item.getName(), item.getAmount(), item.getCost(), balance);
+		store = new Store(item.getName(), item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp(), balance);
         storeList.add(store);
 		
 		//Printing the Item
@@ -271,7 +271,7 @@ public class GUI extends JFrame implements ActionListener{
 //        		sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
 //        		+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
 //	
-        balance -= store.getCapital();
+        balance = store.getTotal();
 	}
 	
 	public void manifestsFunction() {

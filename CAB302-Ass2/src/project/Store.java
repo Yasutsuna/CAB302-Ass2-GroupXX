@@ -6,24 +6,31 @@ public class Store {
 	//private List<Manifest> manifest;
 	private String name;
 	private int quantity;
-	private double capital = 0;
-	double price;
+	private double cost;
+	private double price;
+	private int reorder;
+	private int amount;
+	private int temp;
+	private double total = 100000;
 	
 	//private Item properties;
 	//private String[] foo = {"rice", "biscuits"}; //test 
 	
-	public Store(String name, int quantity, double price, double capital) { //name is name, inventory is quantity
+	public Store(String name, double cost, double price,int reorder, int amount, int temp, double total) { //name is name, inventory is quantity
 		this.name = name;
-		this.quantity  = quantity;
+		this.cost = cost;
 		this.price = price;
-		this.capital = capital;
+		this.reorder = reorder;
+		this.amount = amount;
+		this.temp = temp;
+		this.total = total;
 		//this.properties = properties;
 		//if you want to use, remember to use name[1] and quantity[1]
 	}
 	
 	public Store getInstance() {
 		if (instance == null) {
-			instance = new Store(name, quantity, price, capital);
+			instance = new Store(name, cost, price, reorder, amount, temp, total);
 		}
 		return instance;
 		
@@ -37,13 +44,34 @@ public class Store {
 		return quantity;
 	}
 	
-	public double getCapital() {
+	public double getCost () {
+		return cost;
+	}
+	
+	public double getPrice () {
+		return price;
+	}
+	
+	public int getReorder () {
+		return reorder;
+	}
+	
+	public int getAmount () {
+		return amount;
+	}
+	
+	public int getTemp () {
+		return temp;
+	}
+	
+	public double getTotal() {
 		calculate();
-		return capital;
+		return total;
 	}
 	
 	public void calculate() {
-		capital = price * quantity;
+		quantity = amount;
+		total -= cost * quantity;
 	}
 	
 	/*public double capital () {
