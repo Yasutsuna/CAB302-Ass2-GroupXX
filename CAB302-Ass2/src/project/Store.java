@@ -60,13 +60,11 @@ public class Store {
 	}
 	
 	public double getTotal() {
-		//calculate();
 		return total;
 	}
 	
 	public void calculate() {
 		quantity = amount;
 		total -= cost * quantity;
-	//return total;
 	}
 }

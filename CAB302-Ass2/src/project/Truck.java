@@ -2,7 +2,7 @@ package project;
 
 import java.util.ArrayList;
 
-public abstract class Truck {
+public abstract class Truck{
 	
 	ArrayList<Sales> cargo = new ArrayList<Sales>();
 	public int capacity;
@@ -33,7 +33,7 @@ public abstract class Truck {
 	}
 	
 	//public void putItems(Item item, int quantity) throws DeliveryException {
-		public void putItems(Item item, int quantity) {
+	public void putItems(Store Store, int quantity) {
 		if (quantity > spaceUsed()) {
 			
 			//throw new DeliveryException();

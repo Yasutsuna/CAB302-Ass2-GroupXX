@@ -1,9 +1,40 @@
 package project;
 
-import java.util.List;
-
 public abstract class RefrigeratedTruck extends Truck{
-	//private String name;
+	
+	private int lowestTemp = 0;
+	private double costWithTruck;
+	
+	public RefrigeratedTruck() {
+		capacity = 800;
+	}
+	
+	@Override
+	public double getCost() {
+		costWithTruck = 900 + (200 * Math.pow(0.7, (double) lowestTemp/ 5)) + super.getCost();
+		return costWithTruck;
+	}
+	
+	@Override
+	public void putItems (Store store, int quantity) {
+//	public void putItems (Item item, int quantity) throws DeliveryException {
+		super.putItems(store, quantity);
+		if (store.getTemp()!= 0) {
+			if (lowestTemp == 0) { //if there is no set lowestTemp
+				lowestTemp = store.getTemp();
+			}
+			
+			else {
+				if (lowestTemp > store.getTemp()) {
+					lowestTemp = store.getTemp();
+				}
+			}
+		}
+	}
+}
+
+
+//private String name;
 	//private int quantity;
 	/*
 	private List<Manifest> cargo;
@@ -64,36 +95,3 @@ public abstract class RefrigeratedTruck extends Truck{
 		}
 		
 	}*/
-	
-	private int lowestTemp = 0;
-	private double costWithTruck;
-	
-	public RefrigeratedTruck() {
-		capacity = 800;
-	}
-	
-	@Override
-	public double getCost() {
-		costWithTruck = 900 + (200 * Math.pow(0.7, (double) lowestTemp/ 5)) + super.getCost();
-		return costWithTruck;
-	}
-	
-	@Override
-	public void putItems (Item item, int quantity) {
-//	public void putItems (Item item, int quantity) throws DeliveryException {
-		super.putItems(item, quantity);
-		if (item.getTemp()!= 0) {
-			if (lowestTemp == 0) { //if there is no set lowestTemp
-				lowestTemp = item.getTemp();
-			}
-			
-			else {
-				if (lowestTemp > item.getTemp()) {
-					lowestTemp = item.getTemp();
-				}
-			}
-		}
-	}
-	
-}
-

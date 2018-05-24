@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class GUI extends JFrame implements ActionListener{
 //TODO
-
+	//GUI Global variable using below--------------
 	JTextArea display;
 	JScrollPane scrollpane;
 	DefaultTableModel model;
@@ -34,26 +34,32 @@ public class GUI extends JFrame implements ActionListener{
 	int reorder;
 	int amount;
 	int temp;
+	//---------------------------------------------
 	
+	//Reading file global variable-----------------
 	String initFile = "item_properties.csv";
 	String manifestFile = "manifest.csv";
-	
 	String[] itemDetail;
+	//---------------------------------------------
 	
+	//Class Declare--------------------------------
 	Item item;
 	Store store;
 	Manifest manifest;
 	SalesLogbox slb;
 	Sales sales;
 	Stock2 stock;
+	Truck truck;
+	//---------------------------------------------
 
-	//Create list for holding item objects
+	//Create list for holding item objects---------
     List<Item> itemList = new ArrayList<Item>();
     List<Manifest> manifestList = new ArrayList<Manifest>();
     List<Sales> salesList = new ArrayList<Sales>();
     List<Store> storeList = new ArrayList<Store>();
+	//---------------------------------------------
 	
-	int selection = 0;
+    int selection = 0;
 	double balance = 100000.0;
 	
 	/**
@@ -61,6 +67,7 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	//Interface Design
 	public GUI(){
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		
@@ -139,7 +146,8 @@ public class GUI extends JFrame implements ActionListener{
     		
     	add(combine);
 	}
-
+	
+	//take action when button clicked
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -181,23 +189,31 @@ public class GUI extends JFrame implements ActionListener{
 		//
 	}
 	
-	private void exportFile() throws FileNotFoundException {
+	//do the action when needed
+	public void initialFunction() {
+		store = new Store(item.getName(), item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp());
+        storeList.add(store);
+        balance = store.getTotal();
+	}
+	
+	public void manifestsFunction() {
+			stock = new Stock2(balance,storeList,salesList);
+			balance = stock.getCapital();
+			System.out.println(balance + " abc");
+			printingCapital();
+			
+			//truck.getCost();
+			//truck.putItems(storeList);
+	}
+	
+	public void salesFunction(){
 		// TODO Auto-generated method stub
-		PrintWriter pw = new PrintWriter(new File("Manifest.csv"));
-        StringBuilder sb = new StringBuilder();
-        sb.append(">Refrigarated");
-        sb.append("\n");
-        sb.append(item.getName());
-        sb.append(',');
-        sb.append(item.getAmount());
-        sb.append("\n");
-        sb.append(">Ordinary");
-        sb.append("\n");
-
-        pw.write(sb.toString());
-        pw.close();
+		
+		appendDisplay("--------------------------Sales---------------------------\n"
+				+ "Name: " + sales.getName() + "\nQuantity:" + sales.getQty() + "\n");
 	}
 
+	//import / export Function below
 	public void readFile(String fileName) {
 		BufferedReader reader = null;
     	
@@ -257,49 +273,37 @@ public class GUI extends JFrame implements ActionListener{
         	}
         }
 	}
-
-	public void printingCapital() {
-		appendDisplay( "--------------------------------------\n" + 
-						"Current Capital : " + balance + 
-						"\n--------------------------------------\n");
-	}
 	
-	public void initialFunction() {
-		store = new Store(item.getName(), item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp());
-        storeList.add(store);
-		
-		//Printing the Item
-//        appendDisplay(name + item.getName() +"\n" + qty + store.getQuantity() + "\n" + cost + item.getCost() +"\n" + 
-//        		sellprice + item.getPrice() +"\n" + reorder + item.getReorder() +"\n" + amount 
-//        		+ item.getAmount() +"\n" + temp + item.getTemp() + "\n\n");
-//	
-        balance = store.getTotal();
-	}
-	
-	public void manifestsFunction() {
-		//balance = store.getTotal();
-			stock = new Stock2(balance,storeList,salesList);
-			balance = stock.getCapital();
-			//balance = stock.getCapital();
-			System.out.println(balance + "abc");
-			printingCapital();
-			
-			Truck truck = new RefrigeratedTruck();
-	}
-	
-	public void salesFunction(){
+	private void exportFile() throws FileNotFoundException {
 		// TODO Auto-generated method stub
-		for(Sales s : salesList) {
-			System.out.println(s.getName() + "\n" + s.getQty());
-		}
+		PrintWriter pw = new PrintWriter(new File("Manifest.csv"));
+        StringBuilder sb = new StringBuilder();
+        sb.append(">Refrigarated");
+        sb.append("\n");
+        sb.append(item.getName());
+        sb.append(',');
+        sb.append(item.getAmount());
+        sb.append("\n");
+        sb.append(">Ordinary");
+        sb.append("\n");
+
+        pw.write(sb.toString());
+        pw.close();
 	}
 	
+	//Printing Function below
 	public void resetDisplay(String initialText) {
 		display.setText(initialText);
 	}
 	
 	public void appendDisplay(String newText) {
 		display.setText(display.getText() + newText);
+	}
+	
+	public void printingCapital() {
+		appendDisplay( "--------------------------------------\n" + 
+						"Current Capital : " + balance + 
+						"\n--------------------------------------\n");
 	}
 	
 	public static void main (String[] args) {
@@ -309,6 +313,6 @@ public class GUI extends JFrame implements ActionListener{
 	    s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    s.setSize(1000, 800);
 	    s.setLocation(30, 30);
-	    s.setVisible(true);  
+	    s.setVisible(true);
 	}
 }
