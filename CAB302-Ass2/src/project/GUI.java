@@ -240,6 +240,7 @@ public class GUI extends JFrame implements ActionListener{
                 			}
                 		}
                 		sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]),cost);
+                		//System.out.println("Printing: " + itemDetail[0] + " Price: " + cost);
                 		salesList.add(sales);
                 		salesFunction();
                 	}
@@ -282,6 +283,8 @@ public class GUI extends JFrame implements ActionListener{
 			//balance = stock.getCapital();
 			System.out.println(balance + "abc");
 			printingCapital();
+			
+			Truck truck = new RefrigeratedTruck();
 	}
 	
 	public void salesFunction(){

@@ -79,7 +79,8 @@ public abstract class RefrigeratedTruck extends Truck{
 	}
 	
 	@Override
-	public void putItems (Item item, int quantity) throws DeliveryException {
+	public void putItems (Item item, int quantity) {
+//	public void putItems (Item item, int quantity) throws DeliveryException {
 		super.putItems(item, quantity);
 		if (item.getTemp()!= 0) {
 			if (lowestTemp == 0) { //if there is no set lowestTemp
