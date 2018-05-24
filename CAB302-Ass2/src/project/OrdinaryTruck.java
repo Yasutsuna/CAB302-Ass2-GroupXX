@@ -37,4 +37,16 @@ public class OrdinaryTruck extends Truck{
 		// TODO Auto-generated method stub
 		return capacity;
 	}
+
+	@Override
+	public int getName() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getQuantity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

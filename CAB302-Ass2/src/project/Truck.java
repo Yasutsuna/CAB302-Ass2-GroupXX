@@ -10,12 +10,15 @@ public abstract class Truck{
 	double cost;
 	String name;
 	
-	
-	public abstract double getCost();
+	public abstract void putItems(List<Store> storeList);
 	
 	public abstract int spaceUsed();
 	
 	public abstract int spaceAvailable();
 	
-	public abstract void putItems(List<Store> storeList);
+	public abstract int getName();
+	
+	public abstract int getQuantity();
+	
+	public abstract double getCost();
 }

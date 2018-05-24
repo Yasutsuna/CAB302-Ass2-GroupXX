@@ -58,10 +58,12 @@ public class GUI extends JFrame implements ActionListener{
     List<Manifest> manifestList = new ArrayList<Manifest>();
     List<Sales> salesList = new ArrayList<Sales>();
     List<Store> storeList = new ArrayList<Store>();
+    List<Stock> stockList = new ArrayList<Stock>();
 	//---------------------------------------------
 	
     int selection = 0;
 	double balance = 100000.0;
+	int quantity = 0;
 	
 	/**
 	 * 
@@ -163,23 +165,16 @@ public class GUI extends JFrame implements ActionListener{
 			readFile(initFile);
 			initializedBtn.setEnabled(false);
 			//printingCapital();
-			for(int i=0; i<storeList.size();i++) {
-	  			name = storeList.get(i).getName();
-	  			qty = storeList.get(i).getQuantity();
-	  			cost = storeList.get(i).getCost();
-	  			sellprice = storeList.get(i).getPrice();
-	  			reorder = storeList.get(i).getReorder();
-	  			amount = storeList.get(i).getAmount();
-	  			temp = storeList.get(i).getTemp();
-	  			
-	  			Object[] objs = {name,qty,cost,sellprice,reorder,amount,temp};
-	  	  		tableModel.addRow(objs);
-	  		}
-			//Item item = new Item(name, price, reorder, amount, temp);
+			insertTable();
 		}else if(e.getSource() == manifestsBtn) {
 			selection = 2;
 			manifestsFunction();
-			//stock = new Stock(store.getQuantity(),item.getReorder(),0,"Refrigarated");
+			//update Table
+//			for(Store store : new ArrayList<>(storeList)) {
+//    			storeList.remove(store);
+//    		}
+			//updateStore();
+			updateTable();
 		}else if(e.getSource() == salesLogBtn) {
 			selection = 3;
 			slb = new SalesLogbox(this);
@@ -190,7 +185,7 @@ public class GUI extends JFrame implements ActionListener{
 	
 	//do the action when needed
 	public void initialFunction() {
-		store = new Store(item.getName(), item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp());
+		store = new Store(item.getName(), quantity, item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp());
         storeList.add(store);
         balance = store.getTotal();
 	}
@@ -198,23 +193,71 @@ public class GUI extends JFrame implements ActionListener{
 	public void manifestsFunction() {
 			stock = new Stock(balance,storeList,salesList);
 			balance = stock.getCapital();
-			System.out.println(balance + " abc");
-			//printingCapital();
-			
 			manifest = new Manifest(storeList);
-			balance -= truck.getCost();
-			balance -= truck2.getCost();
-			System.out.println(truck.getCost()/* + truck2.getCost()*/);
+			//balance -= truck.getCost();
+			//balance -= truck2.getCost();
+			System.out.println("truck pay: " + truck.getCost()/* + truck2.getCost()*/);
 			printingCapital();
 	}
 	
 	public void salesFunction(){
 		// TODO Auto-generated method stub
-		
 		appendDisplay("--------------------------Sales---------------------------\n"
 				+ "Name: " + sales.getName() + "\nQuantity:" + sales.getQty() + "\n");
 	}
 
+	//create the data of after initial
+	//table insert
+	private void insertTable() {
+		// TODO Auto-generated method stub
+		
+		for(int i=0; i<storeList.size();i++) {
+  			name = storeList.get(i).getName();
+  			qty = storeList.get(i).getQuantity();
+  			cost = storeList.get(i).getCost();
+  			sellprice = storeList.get(i).getPrice();
+  			reorder = storeList.get(i).getReorder();
+  			amount = storeList.get(i).getAmount();
+  			temp = storeList.get(i).getTemp();
+  			if(temp == 0) {
+  				Object[] objs = {name,qty,cost,sellprice,reorder,amount};
+  				tableModel.addRow(objs);
+  			}else {
+  				Object[] objs = {name,qty,cost,sellprice,reorder,amount,temp};
+  				tableModel.addRow(objs);
+  			}
+  		}
+	}
+	
+	//update the data
+	
+	//table Update
+	private void updateTable() {
+		// TODO Auto-generated method stub
+		for(int i= storeList.size()-1;i>=0;i--) {
+			tableModel.removeRow(i);
+		}
+		for(int i=0; i<stock.newdataList.size();i++) {
+  			name = stock.newdataList.get(i).getName();
+  			qty = stock.newdataList.get(i).getQuantity();
+  			cost = stock.newdataList.get(i).getCost();
+  			sellprice = stock.newdataList.get(i).getPrice();
+  			reorder = stock.newdataList.get(i).getReorder();
+  			amount = stock.newdataList.get(i).getAmount();
+  			temp = stock.newdataList.get(i).getTemp();
+  			if(temp == 0) {
+  				Object[] objs = {name,qty,cost,sellprice,reorder,amount};
+  				tableModel.addRow(objs);
+  			}else {
+  				Object[] objs = {name,qty,cost,sellprice,reorder,amount,temp};
+  				tableModel.addRow(objs);
+  			}
+  			
+  		}
+	}
+	
+	//read csv file
+	
 	//import Function below
 	public void readFile(String fileName) {
 		BufferedReader reader = null;
@@ -226,23 +269,22 @@ public class GUI extends JFrame implements ActionListener{
             while((line=reader.readLine())!=null) {
                 itemDetail = line.split(",",-1);
                 if(itemDetail.length > 0) {
-                	//Button clicked
+                	//Button clicked *selection
                 	if(selection == 1) {
                 		if(itemDetail.length<6) {
                 			item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
             					Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
             					Integer.parseInt(itemDetail[4]));
 		               		itemList.add(item);
-		               		initialFunction();
                 		}else {
                				item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
                						Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
                						Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
-    		               	itemList.add(item);
-    	                	initialFunction();
+    		               	itemList.add(item);   	
                 		}
+                		initialFunction();
                 	}else if(selection == 2) {
-                		manifestsFunction();
+                		
                 	}else if(selection == 3){
                 		double cost = 0;
                 		for(Store s : storeList) {
@@ -269,6 +311,8 @@ public class GUI extends JFrame implements ActionListener{
         }
 	}
 	
+	//export csv file
+	
 	//export Function below
 	private void exportFile() throws FileNotFoundException {
 		// TODO Auto-generated method stub
@@ -287,15 +331,19 @@ public class GUI extends JFrame implements ActionListener{
         pw.close();
 	}
 	
+	//display function below
+	
 	//Printing Function below
 	public void resetDisplay(String initialText) {
 		display.setText(initialText);
 	}
 	
+	
 	//Printing Function below
 	public void appendDisplay(String newText) {
 		display.setText(display.getText() + newText);
 	}
+	
 	
 	//Printing Function below
 	public void printingCapital() {
@@ -303,6 +351,7 @@ public class GUI extends JFrame implements ActionListener{
 						"                Current Capital : " + balance + 
 						"\n-------------------------------------------------------------\n");
 	}
+	
 	
 	public static void main (String[] args) {
 		GUI s = new GUI();

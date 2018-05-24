@@ -13,8 +13,9 @@ public class Store {
 	private int temp;
 	static double total = 100000;
 	
-	public Store(String name, double cost, double price,int reorder, int amount, int temp) { //name is name, inventory is quantity
+	public Store(String name, int quantity, double cost, double price,int reorder, int amount, int temp) { //name is name, inventory is quantity
 		this.name = name;
+		this.quantity = quantity;
 		this.cost = cost;
 		this.price = price;
 		this.reorder = reorder;
@@ -25,7 +26,7 @@ public class Store {
 	
 	public Store getInstance() {
 		if (instance == null) {
-			instance = new Store(name, cost, price, reorder, amount, temp);
+			instance = new Store(name, quantity, cost, price, reorder, amount, temp);
 		}
 		return instance;
 		
@@ -64,7 +65,9 @@ public class Store {
 	}
 	
 	public void calculate() {
-		quantity = amount;
-		total -= cost * quantity;
+		if(quantity == 0) {
+			quantity = amount;
+		}
+			total -= cost * quantity;
 	}
 }

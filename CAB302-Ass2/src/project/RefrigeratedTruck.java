@@ -47,4 +47,16 @@ public class RefrigeratedTruck extends Truck{
 		costWithTruck = Math.round(900 + (200 * Math.pow(0.7, (double) lowestTemp/ 5)));
 		return costWithTruck;
 	}
+
+	@Override
+	public int getName() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getQuantity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
