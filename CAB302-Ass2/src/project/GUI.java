@@ -204,7 +204,7 @@ public class GUI extends JFrame implements ActionListener{
 			manifest = new Manifest(storeList);
 			balance -= truck.getCost();
 			balance -= truck2.getCost();
-			System.out.println(truck.getCost() + truck2.getCost());
+			System.out.println(truck.getCost()/* + truck2.getCost()*/);
 			printingCapital();
 	}
 	
