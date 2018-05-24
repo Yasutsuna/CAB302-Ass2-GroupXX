@@ -233,7 +233,13 @@ public class GUI extends JFrame implements ActionListener{
                 			manifestsFunction();
                 		}
                 	}else if(selection == 3){
-                		sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]));
+                		double cost = 0;
+                		for(Store s : storeList) {
+                			if(itemDetail[0].equals(s.getName())) {
+                				cost = s.getCost();
+                			}
+                		}
+                		sales = new Sales(itemDetail[0], Integer.parseInt(itemDetail[1]),cost);
                 		salesList.add(sales);
                 		salesFunction();
                 	}
