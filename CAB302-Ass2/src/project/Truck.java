@@ -1,52 +1,33 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Truck{
 	
-	ArrayList<Sales> cargo = new ArrayList<Sales>();
-	public int capacity;
-	Sales sales;
+	List<Truck> truckList = new ArrayList<Truck>();
+	int qty;
+	double cost;
+	String name;
 	
 	
-	public double getCost() {
-		double cost = 0;
-		
-		for (Sales i : cargo) {
-			cost = cost + i.getQty() * i.getCost(); //drag the price shoud be fine. //grab from item
-
-		}
-		return cost;
-	}
-
+	public abstract double getCost();
 	
-	public int spaceUsed() {
-		int count = 0;
-		for (Sales i : cargo) {
-			count = i.getQty();
-		}
-		return count;
-	}
+	public abstract int spaceUsed();
 	
-	public int spaceAvailable() {
-		return capacity - spaceUsed();
-	}
+	public abstract int spaceAvailable();
 	
 	//public void putItems(Item item, int quantity) throws DeliveryException {
-	public void putItems(Store Store, int quantity) {
-		if (quantity > spaceUsed()) {
-			
+	public abstract void putItems(List<Store> storeList); //{
+		/*for(Store s : storeList) {
+			name = s.getName();
+			qty = s.getQuantity();
+			cost = s.getCost();
+		}
+		if ( qty > spaceUsed()) {	
 			//throw new DeliveryException();
-		}
-		
-		for (Sales i : cargo) {
-		sales = new Sales (i.getName(), quantity, i.getCost());  //check the quantity
-		//ArrayList<Sales> s???? = new ArrayList<Sales>(); //check this part
-		cargo.add(sales); //check this part
-		}
-	}
-	
-
+		}*/
+	//}
 }
 
 /*

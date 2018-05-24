@@ -1,35 +1,51 @@
 package project;
 
-public abstract class RefrigeratedTruck extends Truck{
+import java.util.List;
+
+public class RefrigeratedTruck extends Truck{
 	
 	private int lowestTemp = 0;
 	private double costWithTruck;
+	private int capacity = 800;
+	private int spaceUsing = 0;
 	
 	public RefrigeratedTruck() {
-		capacity = 800;
+		super();
 	}
 	
 	@Override
 	public double getCost() {
-		costWithTruck = 900 + (200 * Math.pow(0.7, (double) lowestTemp/ 5)) + super.getCost();
+		costWithTruck = Math.round(900 + (200 * Math.pow(0.7, (double) lowestTemp/ 5)));
 		return costWithTruck;
 	}
 	
 	@Override
-	public void putItems (Store store, int quantity) {
+	public void putItems (List<Store> storeList) {
 //	public void putItems (Item item, int quantity) throws DeliveryException {
-		super.putItems(store, quantity);
-		if (store.getTemp()!= 0) {
-			if (lowestTemp == 0) { //if there is no set lowestTemp
-				lowestTemp = store.getTemp();
-			}
-			
-			else {
-				if (lowestTemp > store.getTemp()) {
-					lowestTemp = store.getTemp();
+		for(Store s : storeList) {
+			spaceUsing = s.getQuantity();
+			if (s.getTemp()!= 0) {
+				if (lowestTemp == 0) { //if there is no set lowestTemp
+					lowestTemp = s.getTemp();
+				}else{
+					if (lowestTemp > s.getTemp()) {
+						lowestTemp = s.getTemp();
+					}
 				}
 			}
 		}
+	}
+
+	@Override
+	public int spaceUsed() {
+		// TODO Auto-generated method stub
+		return spaceUsing;
+	}
+
+	@Override
+	public int spaceAvailable() {
+		// TODO Auto-generated method stub
+		return capacity - spaceUsing;
 	}
 }
 

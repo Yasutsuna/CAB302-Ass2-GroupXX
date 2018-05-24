@@ -1,115 +1,73 @@
 package project;
 
+import java.util.List;
+
 public class Stock {
-	//current capital
+
+	int qty;
+	int salesQty;
+	double salesPrice;
+	int reorderP;
+	double orderCost;
+	int orderAmount;
 	private double capital;
-	//storeInventory
-	private String name;
-	private int qty;
-	//stockOrders
-	private String oname;
-	private double ocost;
-	private int oamount;
-	private int reorderP;
-	//salesLog
-	private String sname;
-	private double sprice;
-	private int sqty;
-	//Truck
-	private String Refrigarated; 
-	private String ordinary;
+	private List<Store> storeList;
+	private List<Sales> salesList;
 	
-	Item item;
 	
-	/*public Stock(double capital, Store store, Item item, Sales sales) {	
-		classification();
-	}*/
-	
-	public Stock(double capital, String name, int qty, String oname , double ocost, int oamount, int reorderP, String sname, double sprice, int sqty) {	
+	public Stock(double capital, List<Store> storeList, List<Sales> salesList) {
 		this.capital = capital;
-		this.name = name;
-		this.qty = qty;
-		this.oname = oname;
-		this.ocost = ocost;
-		this.oamount = oamount;
-		this.reorderP = reorderP;
-		this.sname = sname;	
-		this.sprice = sprice;	
-		this.sqty = sqty;
-		classification();
+		this.storeList = storeList;
+		this.salesList = salesList;
+		// TODO Auto-generated constructor stub
+		storeManage();
+	}
+	
+	public List<Store> getStoreList(){
+		return storeList;
+	}
+	
+	public List<Sales> getSalesList(){
+		return salesList;
+	}
+	
+	public double getCapital(){
+		return capital;
 	}
 
-	public void classification() {
+
+	private void storeManage() {
 		// TODO Auto-generated method stub
-		/*capital -= sprice * sqty;
-		if(capital <= 0) {
-			System.out.println("Fail");
-		}else {
-			qty -= sqty;
-			if(qty<=reorderP) {
-				qty += item.getAmount(); 
-				capital -= item.getCost()*item.getAmount();
-			}else {
-				
-			}
-		}*/
-		
-		if(name.equals(sname)) {
-			qty -= sqty;
-			capital += sprice * sqty;
-			if(qty <= reorderP) {
-				if(capital > 0) {
-					qty += 2;
-					capital -= ocost*oamount;
-					System.out.println(capital);
-				}else {
-					System.out.println("***No enought Capital***");
+		boolean check = false;
+		for(Store st : storeList) {
+			qty = st.getQuantity();
+			reorderP = st.getReorder();
+			orderCost = st.getCost();
+			orderAmount = st.getAmount();
+			salesPrice = st.getPrice();
+			for(Sales sa : salesList) {
+				salesQty = sa.getQty();
+				if(check == false) {
+					if(st.getName().equals(sa.getName())){
+						qty -= salesQty;
+						capital += salesPrice*salesQty;
+						System.out.print("Current banlance: " +capital+"\n");
+					
+						if(qty <= reorderP) {
+							if(!(capital <= 0)) {
+								qty += orderAmount;
+								capital -= orderAmount*orderCost;
+								System.out.println(sa.getName() + " bought!");
+							}else {
+								System.out.println("No Enought Capital");
+								check = true;
+							}
+						}else {
+							System.out.println(sa.getName() + " more than reorder Point so Continues");
+						}
+					}
 				}
-			}else {
-				System.out.println("updated");
 			}
 		}
-		
-	}
-
-	//store's item
-	public String getName(){
-		return name;
-	}
-	
-	public int getQty(){
-		return qty;
-	}
-	
-	//orderpoint detail
-	public String getOname() {
-		return oname;
-	}
-	
-	public double getOcost() {
-		return ocost;
-	}
-	
-	public int getOamount() {
-		return oamount;
-	}
-	
-	public int getReorderP() {
-		return reorderP;
-	}
-	
-	//salesLog detail
-	public String getSname() {
-		return sname;
-	}
-	
-	public double getSprice() {
-		return sprice;
-	}
-	
-	public int getSqty() {
-		return sqty;
 	}
 }
-
-

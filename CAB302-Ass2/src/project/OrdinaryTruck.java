@@ -1,17 +1,41 @@
 package project;
 
-public abstract class OrdinaryTruck extends Truck{
+import java.util.List;
+
+public class OrdinaryTruck extends Truck{
 	
 	private double costWithTruck;
+	private int capacity = 1000;
+	private int spaceUsing = 0;
 	
 	public OrdinaryTruck() {
-		capacity = 1000;
+		super();
 	}
 	
 	@Override
 	public double getCost() {
-		costWithTruck = 750 + (0.25 * spaceUsed() + super.getCost());
+		costWithTruck = Math.round(750 + (0.25 * spaceUsed()));
 		return costWithTruck;
+	}
+
+	@Override
+	public int spaceUsed() {
+		// TODO Auto-generated method stub
+		return spaceUsing;
+	}
+
+	@Override
+	public int spaceAvailable() {
+		// TODO Auto-generated method stub
+		return capacity;
+	}
+
+	@Override
+	public void putItems(List<Store> storeList) {
+		// TODO Auto-generated method stub
+		for(Store s : storeList) {
+			spaceUsing = s.getQuantity();
+		}
 	}
 }
 

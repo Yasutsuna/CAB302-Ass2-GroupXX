@@ -48,8 +48,9 @@ public class GUI extends JFrame implements ActionListener{
 	Manifest manifest;
 	SalesLogbox slb;
 	Sales sales;
-	Stock2 stock;
-	Truck truck;
+	Stock stock;
+	Truck truck =new OrdinaryTruck();
+	Truck truck2 =new RefrigeratedTruck();
 	//---------------------------------------------
 
 	//Create list for holding item objects---------
@@ -99,27 +100,23 @@ public class GUI extends JFrame implements ActionListener{
 		JPanel screen = new JPanel(new BorderLayout());
 		screen.add(scrollpane,BorderLayout.CENTER);
 		resetDisplay("Started Capital : " + balance + "\nClick the Load Properties Doc Button to Start.\n"
-				+ "------------------------------------------------------------------------\n");
+				+ "-------------------------------------------------------------------\n");
 		//--------------------------------------------
 		
 		
-		//main GUI------------------------------------
-		//Create for the data inserting
-		//model = new DefaultTableModel(data,header);
+		//Tabular design------------------------------
 		tableModel = new DefaultTableModel(header,0);
   		table = new JTable(tableModel);
   		table.setPreferredScrollableViewportSize(getMaximumSize());
   		JScrollPane pane = new JScrollPane();
   		pane.setViewportView(table);
   		
-  		//store.setData((DefaultTableModel)table.getModel());
-  		
   		JPanel middlePanel = new JPanel(new GridLayout(2,1));
   		middlePanel.add(screen,BorderLayout.NORTH);
   		middlePanel.add(pane,BorderLayout.CENTER);
   		//--------------------------------------------
   		
-  		//button Create
+  		//button Create-------------------------------
   		exportBtn =  new JButton("Export Manifests");
   		exportBtn.addActionListener(this);
   		initializedBtn =  new JButton("Load properties Doc");
@@ -128,8 +125,9 @@ public class GUI extends JFrame implements ActionListener{
   		manifestsBtn.addActionListener(this);
   		salesLogBtn =  new JButton("Load Sales Logs");
 		salesLogBtn.addActionListener(this);
-  		
-  		//Button Panel
+  		//--------------------------------------------
+		
+  		//Button Panel--------------------------------
   		JPanel btmrow1 = new JPanel(new GridLayout(1,3));
   		btmrow1.add(manifestsBtn);
   		btmrow1.add(salesLogBtn);
@@ -138,12 +136,13 @@ public class GUI extends JFrame implements ActionListener{
   		JPanel btmPanel = new JPanel(new BorderLayout());
 		btmPanel.add(initializedBtn,BorderLayout.CENTER);
 		btmPanel.add(btmrow1,BorderLayout.SOUTH);
-    	
+		//--------------------------------------------
+		
     	JPanel combine = new JPanel(new BorderLayout());
     	combine.add(topPanel, BorderLayout.NORTH);
     	combine.add(middlePanel, BorderLayout.CENTER);
     	combine.add(btmPanel, BorderLayout.SOUTH);
-    		
+    	
     	add(combine);
 	}
 	
@@ -197,13 +196,16 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public void manifestsFunction() {
-			stock = new Stock2(balance,storeList,salesList);
+			stock = new Stock(balance,storeList,salesList);
 			balance = stock.getCapital();
 			System.out.println(balance + " abc");
-			printingCapital();
+			//printingCapital();
 			
-			//truck.getCost();
-			//truck.putItems(storeList);
+			manifest = new Manifest(storeList);
+			balance -= truck.getCost();
+			balance -= truck2.getCost();
+			System.out.println(truck.getCost() + truck2.getCost());
+			printingCapital();
 	}
 	
 	public void salesFunction(){
@@ -213,7 +215,7 @@ public class GUI extends JFrame implements ActionListener{
 				+ "Name: " + sales.getName() + "\nQuantity:" + sales.getQty() + "\n");
 	}
 
-	//import / export Function below
+	//import Function below
 	public void readFile(String fileName) {
 		BufferedReader reader = null;
     	
@@ -232,7 +234,7 @@ public class GUI extends JFrame implements ActionListener{
             					Integer.parseInt(itemDetail[4]));
 		               		itemList.add(item);
 		               		initialFunction();
-                		}else {                			
+                		}else {
                				item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
                						Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
                						Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
@@ -240,14 +242,7 @@ public class GUI extends JFrame implements ActionListener{
     	                	initialFunction();
                 		}
                 	}else if(selection == 2) {
-                		
-                		if(itemDetail[0].contains(">")) {
-                			//skip reading the line here
-                		}else {
-                			manifest = new Manifest(itemDetail[0], Integer.parseInt(itemDetail[1]));
-                			manifestList.add(manifest);
-                			manifestsFunction();
-                		}
+                		manifestsFunction();
                 	}else if(selection == 3){
                 		double cost = 0;
                 		for(Store s : storeList) {
@@ -274,6 +269,7 @@ public class GUI extends JFrame implements ActionListener{
         }
 	}
 	
+	//export Function below
 	private void exportFile() throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		PrintWriter pw = new PrintWriter(new File("Manifest.csv"));
@@ -296,14 +292,16 @@ public class GUI extends JFrame implements ActionListener{
 		display.setText(initialText);
 	}
 	
+	//Printing Function below
 	public void appendDisplay(String newText) {
 		display.setText(display.getText() + newText);
 	}
 	
+	//Printing Function below
 	public void printingCapital() {
-		appendDisplay( "--------------------------------------\n" + 
-						"Current Capital : " + balance + 
-						"\n--------------------------------------\n");
+		appendDisplay( "-------------------------------------------------------------\n" + 
+						"                Current Capital : " + balance + 
+						"\n-------------------------------------------------------------\n");
 	}
 	
 	public static void main (String[] args) {

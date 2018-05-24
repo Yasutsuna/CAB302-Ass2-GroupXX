@@ -1,28 +1,34 @@
 package project;
 
+import java.util.List;
+
 public class Manifest {
 	
-	private String name;
-	private int currentleft;
+	private List<Store> storeList;
+	int temp=0;
+	//double balance;
+	Truck truck;
 	
-	Stock stock;
-	//RefrigeratedTruck rtruck ;
-	//Truck truck;
-	
-	public Manifest(String name, int currentleft) {
-		this.name = name;
-		this.currentleft = currentleft;
+	public Manifest( List<Store> storeList) {
+		//this.balance = balance;
+		this.storeList = storeList;
+		callTruck();
 	}
 	
-	public String getName() {
-		return name;
+	public List<Store> getStoreList() {
+		return storeList;
 	}
 	
-	public double getCurrentleft( ) {
-		return currentleft;
-	}
-	
-	private void loadingTruck() {
-		//truck = new RefrigeratedTruck();
+	private void callTruck() {
+		for(Store s : storeList) {
+			temp = s.getTemp();
+			if(temp == 0) {
+				truck = new OrdinaryTruck();
+			}else {
+				truck = new RefrigeratedTruck();
+			}
+			truck.putItems(storeList);
+		}
+		
 	}
 }
