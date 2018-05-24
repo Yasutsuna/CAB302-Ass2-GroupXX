@@ -11,26 +11,21 @@ public class Store {
 	private int reorder;
 	private int amount;
 	private int temp;
-	private double total = 100000;
+	static double total = 100000;
 	
-	//private Item properties;
-	//private String[] foo = {"rice", "biscuits"}; //test 
-	
-	public Store(String name, double cost, double price,int reorder, int amount, int temp, double total) { //name is name, inventory is quantity
+	public Store(String name, double cost, double price,int reorder, int amount, int temp) { //name is name, inventory is quantity
 		this.name = name;
 		this.cost = cost;
 		this.price = price;
 		this.reorder = reorder;
 		this.amount = amount;
 		this.temp = temp;
-		this.total = total;
-		//this.properties = properties;
-		//if you want to use, remember to use name[1] and quantity[1]
+		calculate();
 	}
 	
 	public Store getInstance() {
 		if (instance == null) {
-			instance = new Store(name, cost, price, reorder, amount, temp, total);
+			instance = new Store(name, cost, price, reorder, amount, temp);
 		}
 		return instance;
 		
@@ -65,31 +60,13 @@ public class Store {
 	}
 	
 	public double getTotal() {
-		calculate();
+		//calculate();
 		return total;
 	}
 	
 	public void calculate() {
 		quantity = amount;
 		total -= cost * quantity;
+	//return total;
 	}
-	
-	/*public double capital () {
-		//System.out.println(properties.getName().toString());
-		//System.out.println(name[1]);
-		//System.out.println(properties);
-		
-		for (int i = 0; i < 2; i++) {
-		//	if (properties.getName().equals(name[i]) ) {
-			if (properties.getName().equals(name[i]) ) {
-				capital = capital - properties.getPrice();
-				System.out.println("\n" + capital + "\n");
-			}
-			else {
-				System.out.println("Boo!");
-			}
-	
-		}
-		return capital;
-	*/
 }

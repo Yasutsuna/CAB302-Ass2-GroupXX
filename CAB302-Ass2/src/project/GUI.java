@@ -54,7 +54,7 @@ public class GUI extends JFrame implements ActionListener{
     List<Store> storeList = new ArrayList<Store>();
 	
 	int selection = 0;
-	static double balance = 100000.0;
+	double balance = 100000.0;
 	
 	/**
 	 * 
@@ -155,7 +155,7 @@ public class GUI extends JFrame implements ActionListener{
 			selection = 1;
 			readFile(initFile);
 			initializedBtn.setEnabled(false);
-			printingCapital();
+			//printingCapital();
 			for(int i=0; i<storeList.size();i++) {
 	  			name = storeList.get(i).getName();
 	  			qty = storeList.get(i).getQuantity();
@@ -255,15 +255,10 @@ public class GUI extends JFrame implements ActionListener{
 		appendDisplay( "--------------------------------------\n" + 
 						"Current Capital : " + balance + 
 						"\n--------------------------------------\n");
-		
-//		appendDisplay("\n-----------------------------Store-----------------------------");
-//		for(Store s: storeList) {
-//			appendDisplay("\nname: " + s.getName() + "\nquantity: " + s.getQuantity() + "\ntotal cost: " + s.getCapital() + "\n");
-//		}
 	}
 	
 	public void initialFunction() {
-		store = new Store(item.getName(), item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp(), balance);
+		store = new Store(item.getName(), item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp());
         storeList.add(store);
 		
 		//Printing the Item
@@ -275,8 +270,12 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public void manifestsFunction() {
-		//stock = new Stock(balance,store.getName(),store.getQuantity(),item.getName(),item.getCost(),item.getAmount(),item.getReorder(),sales.getName(),item.getPrice(),sales.getQty());
-		stock = new Stock2(balance,storeList,itemList,salesList);
+		//balance = store.getTotal();
+			stock = new Stock2(balance,storeList,salesList);
+			balance = stock.getCapital();
+			//balance = stock.getCapital();
+			System.out.println(balance + "abc");
+			printingCapital();
 	}
 	
 	public void salesFunction(){
