@@ -53,17 +53,28 @@ public abstract class Truck {
 	}*/
 	
 	ArrayList<Sales> cargo = new ArrayList<Sales>();
+	ArrayList<Item> abandoned = new ArrayList<Item>();
 	public int capacity;
 	Sales sales;
 	
+	
 	public double getCost() {
-		int cost = 0;
+		//this.item = item;
+		double cost = 0;
+		
 		for (Sales i : cargo) {
+			/*for (Item k : abandoned) {
+				if (k.getName().equals(i.getName())) {
+					price = k.getPrice();
+				}
+			}*/
+			cost = cost + i.getQty() * i.getCost(); //drag the price shoud be fine. //grab from item
 			//cost = cost + i.getQty() * i.getPrice(); //drag the price shoud be fine.
 			//cost = cost + i.getQty() * 3;
 		}
 		return cost;
 	}
+
 	
 	public int spaceUsed() {
 		int count = 0;
@@ -77,14 +88,14 @@ public abstract class Truck {
 		return capacity - spaceUsed();
 	}
 	
-	public void putItems(Item item, int quantity) {
+	public void putItems(Item item, int quantity) throws DeliveryException {
 		if (quantity > spaceUsed()) {
 			
-			//error overload
+			throw new DeliveryException();
 		}
 		
 		for (Sales i : cargo) {
-		sales = new Sales (i.getName(), quantity); 
+		sales = new Sales (i.getName(), quantity, i.getCost());  //check the quantity
 		//ArrayList<Sales> s???? = new ArrayList<Sales>(); //check this part
 		cargo.add(sales); //check this part
 		}
