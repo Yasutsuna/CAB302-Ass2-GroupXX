@@ -34,6 +34,8 @@ public class GUI extends JFrame implements ActionListener{
 	int reorder;
 	int amount;
 	int temp;
+	int i;
+	int j;
 	//---------------------------------------------
 	
 	//Reading file global variable-----------------
@@ -49,8 +51,9 @@ public class GUI extends JFrame implements ActionListener{
 	SalesLogbox slb;
 	Sales sales;
 	Stock stock;
-	Truck truck =new OrdinaryTruck();
-	Truck truck2 =new RefrigeratedTruck();
+	Truck otruck;
+	Truck rtruck;
+	//Truck truck2 = new RefrigeratedTruck(initFile, amount, balance, amount);
 	//---------------------------------------------
 
 	//Create list for holding item objects---------
@@ -59,6 +62,7 @@ public class GUI extends JFrame implements ActionListener{
     List<Sales> salesList = new ArrayList<Sales>();
     List<Store> storeList = new ArrayList<Store>();
     List<Stock> stockList = new ArrayList<Stock>();
+    List<Truck> truckList = new ArrayList<Truck>();
 	//---------------------------------------------
 	
     int selection = 0;
@@ -193,10 +197,18 @@ public class GUI extends JFrame implements ActionListener{
 	public void manifestsFunction() {
 			stock = new Stock(balance,storeList,salesList);
 			balance = stock.getCapital();
-			manifest = new Manifest(storeList);
-			//balance -= truck.getCost();
+			for(Store s : stock.newdataList) {
+				System.out.println("Name: "+s.getName()+ " Quantity: " + s.getQuantity() + " Cost: " + s.getCost() + " Temp: " + s.getTemp());
+				manifest = new Manifest(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
+				otruck = new OrdinaryTruck(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
+				rtruck = new RefrigeratedTruck(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
+			}
+			i = (int) otruck.getTruckCost();
+			j = (int) rtruck.getTruckCost();
+			balance -= i+j;
 			//balance -= truck2.getCost();
-			System.out.println("truck pay: " + truck.getCost()/* + truck2.getCost()*/);
+			System.out.println("truck pay: " + rtruck.getTruckCost()/* + truck2.getCost()*/);
+			System.out.println("truck 1: " + rtruck.getTrucklist());
 			printingCapital();
 	}
 	

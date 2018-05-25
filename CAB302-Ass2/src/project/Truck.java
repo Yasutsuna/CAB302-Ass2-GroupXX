@@ -5,20 +5,41 @@ import java.util.List;
 
 public abstract class Truck{
 	
-	List<Truck> truckList = new ArrayList<Truck>();
 	int qty;
 	double cost;
 	String name;
+	int temp;
 	
-	public abstract void putItems(List<Store> storeList);
+	public Truck(String name, int qty, double cost, int temp) {
+		this.name = name;
+		this.cost = cost;
+		this.qty = qty;
+		this.temp = temp;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public double getCost() {
+		return cost;
+	}
+	
+	public int getQty() {
+		return qty;
+	}
+	
+	public int temp() {
+		return temp;
+	}
+	
+	public abstract void putItems();
 	
 	public abstract int spaceUsed();
 	
 	public abstract int spaceAvailable();
 	
-	public abstract int getName();
+	public abstract double getTruckCost();
 	
-	public abstract int getQuantity();
-	
-	public abstract double getCost();
+	public abstract ArrayList<Object> getTrucklist();
 }

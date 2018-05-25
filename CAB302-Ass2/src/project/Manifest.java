@@ -1,34 +1,55 @@
 package project;
 
-import java.util.List;
-
 public class Manifest {
 	
-	private List<Store> storeList;
 	int temp=0;
-	//double balance;
 	Truck truck;
+	private String name;
+	private double cost;
+	private int qty;
 	
-	public Manifest( List<Store> storeList) {
+/*	public Manifest(List<Store> newdataList) {
 		//this.balance = balance;
-		this.storeList = storeList;
+		this.newdataList = newdataList;
+		callTruck();
+	}*/
+	
+	/*public List<Store> getStoreList() {
+		return newdataList;
+	}*/
+	
+	public Manifest(String name, int qty, double cost, int temp) {
+		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.cost = cost;
+		this.qty = qty;
+		this.temp = temp;
 		callTruck();
 	}
 	
-	public List<Store> getStoreList() {
-		return storeList;
+	public String getName() {
+		return name;
 	}
 	
+	public double getCost() {
+		return cost;
+	}
+	
+	public int getQty() {
+		return qty;
+	}
+	
+	public int temp() {
+		return temp;
+	}
+	
+	
 	private void callTruck() {
-		for(Store s : storeList) {
-			temp = s.getTemp();
-			if(temp == 0) {
-				truck = new OrdinaryTruck();
-			}else {
-				truck = new RefrigeratedTruck();
-			}
-			truck.putItems(storeList);
+		if(temp == 0) {
+			truck = new OrdinaryTruck(name,qty,cost,temp);
+		}else {
+			truck = new RefrigeratedTruck(name,qty,cost,temp);
 		}
-		
+		truck.putItems();		
 	}
 }
