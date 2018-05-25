@@ -34,7 +34,7 @@ public class RefrigeratedTruck extends Truck{
 			rtruckList.add(qty);
 		}else if(spaceUsed() > spaceAvailable()){
 			itemleft = spaceUsed() - capacity;
-			if(itemleft>spaceAvailable()) {
+			if(itemleft>capacity) {
 					List<Object> otruckList = new ArrayList<Object>();
 				otruckList.add(name);
 				otruckList.add(qty);

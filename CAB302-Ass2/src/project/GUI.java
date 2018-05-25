@@ -34,8 +34,8 @@ public class GUI extends JFrame implements ActionListener{
 	int reorder;
 	int amount;
 	int temp;
-	int i;
-	int j;
+	double i;
+	double j;
 	//---------------------------------------------
 	
 	//Reading file global variable-----------------
@@ -68,6 +68,7 @@ public class GUI extends JFrame implements ActionListener{
     int selection = 0;
 	double balance = 100000.0;
 	int quantity = 0;
+	double total;
 	
 	/**
 	 * 
@@ -202,12 +203,14 @@ public class GUI extends JFrame implements ActionListener{
 				manifest = new Manifest(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
 				otruck = new OrdinaryTruck(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
 				rtruck = new RefrigeratedTruck(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
+				i = otruck.getTruckCost();
+				j = rtruck.getTruckCost();
+				
 			}
-			i = (int) otruck.getTruckCost();
-			j = (int) rtruck.getTruckCost();
-			balance -= i+j;
-			//balance -= truck2.getCost();
-			System.out.println("truck pay: " + rtruck.getTruckCost()/* + truck2.getCost()*/);
+			total = (i+j);
+			//System.out.println(total+" total");
+			balance -= total;
+			System.out.println("truck pay: " + otruck.getTruckCost()/* + truck2.getCost()*/);
 			System.out.println("truck 1: " + rtruck.getTrucklist());
 			printingCapital();
 	}
