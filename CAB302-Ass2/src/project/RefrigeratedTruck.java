@@ -1,14 +1,13 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RefrigeratedTruck extends Truck{
 	
-	private int lowestTemp = 0;
+	//private int lowestTemp=0;;
 	double costWithTruck;
 	private int capacity = 800;
-	private int itemleft = 0;
+	//private int itemleft = 0;
 	private static int spaceUsing;
 	ArrayList<Object> rtruckList = new ArrayList<>();
 	
@@ -19,27 +18,28 @@ public class RefrigeratedTruck extends Truck{
 	@Override
 	public void putItems () {
 //	public void putItems (Item item, int quantity) throws DeliveryException {
-		if (temp!= 0) {
-			if (lowestTemp == 0) { //if there is no set lowestTemp
-				lowestTemp = temp;
-			}else{
-				if (lowestTemp > temp) {
-					lowestTemp = temp;
-				}
-			}	
-		}
+//		if (temp!= 0) {
+//			if (lowestTemp == 0) { //if there is no set lowestTemp
+//				lowestTemp = temp;
+//			}else{
+//				if (lowestTemp > temp) {
+//					lowestTemp = temp;
+//				}
+//			}	
+//		}
 		
-		if(spaceUsed() <= spaceAvailable()) {
-			rtruckList.add(name);
-			rtruckList.add(qty);
-		}else if(spaceUsed() > spaceAvailable()){
-			itemleft = spaceUsed() - capacity;
-			if(itemleft>capacity) {
-					List<Object> otruckList = new ArrayList<Object>();
-				otruckList.add(name);
-				otruckList.add(qty);
-			}
-		}
+//		if(spaceUsed() <= spaceAvailable()) {
+//			rtruckList.add(name);
+//			rtruckList.add(qty);
+//		}else if(spaceUsed() > spaceAvailable()){
+//			itemleft = spaceUsed() - capacity;
+//			if(itemleft>capacity) {
+//					List<Object> otruckList = new ArrayList<Object>();
+				rtruckList.add(name);
+				rtruckList.add(qty);
+//			}
+//		}
+			System.out.println("This is refrigerated truck list : " + rtruckList);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class RefrigeratedTruck extends Truck{
 	
 	@Override
 	public double getTruckCost() {
-		costWithTruck = Math.round(900 + 200 * (Math.pow(0.7, (double) lowestTemp/ 5)));
+		costWithTruck = Math.round(900 + 200 * (Math.pow(0.7, (double) temp/ 5)));
 		return costWithTruck;
 	}
 	

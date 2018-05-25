@@ -199,7 +199,7 @@ public class GUI extends JFrame implements ActionListener{
 			stock = new Stock(balance,storeList,salesList);
 			balance = stock.getCapital();
 			for(Store s : stock.newdataList) {
-				System.out.println("Name: "+s.getName()+ " Quantity: " + s.getQuantity() + " Cost: " + s.getCost() + " Temp: " + s.getTemp());
+				//System.out.println("Name: "+s.getName()+ " Quantity: " + s.getQuantity() + " Cost: " + s.getCost() + " Temp: " + s.getTemp());
 				manifest = new Manifest(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
 				otruck = new OrdinaryTruck(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
 				rtruck = new RefrigeratedTruck(s.getName(),s.getQuantity(),s.getCost(),s.getTemp());
@@ -208,10 +208,10 @@ public class GUI extends JFrame implements ActionListener{
 				
 			}
 			total = (i+j);
-			//System.out.println(total+" total");
+			System.out.println("total of ordinary: " + i + " total of refrigerated: " + j + " total of truck paid: "+ total);
 			balance -= total;
-			System.out.println("truck pay: " + otruck.getTruckCost()/* + truck2.getCost()*/);
-			System.out.println("truck 1: " + rtruck.getTrucklist());
+			//System.out.println("truck pay: " + otruck.getTruckCost()/* + truck2.getCost()*/);
+			//System.out.println("truck 1: " + rtruck.getTrucklist());
 			printingCapital();
 	}
 	

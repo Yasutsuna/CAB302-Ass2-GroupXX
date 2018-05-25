@@ -1,13 +1,12 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OrdinaryTruck extends Truck{
 	
 	double costWithTruck;
 	private int capacity = 1000;
-	private int itemleft = 0;
+	//private int itemleft = 0;
 	private static int spaceUsing;
 	ArrayList<Object> otruckList = new ArrayList<Object>();
 	
@@ -18,17 +17,18 @@ public class OrdinaryTruck extends Truck{
 	@Override
 	public void putItems() {
 		// TODO Auto-generated method stub
-		if(spaceUsed() <= spaceAvailable()) {
-			this.otruckList.add(name);
-			this.otruckList.add(qty);
-		}else if(spaceUsed() > spaceAvailable()){
-			itemleft = spaceUsed() - capacity;
-			if(itemleft>capacity) {
-				List<Object> otruckList = new ArrayList<Object>();
+//		if(spaceUsed() <= spaceAvailable()) {
+//			this.otruckList.add(name);
+//			this.otruckList.add(qty);
+//		}else if(spaceUsed() > spaceAvailable()){
+//			itemleft = spaceUsed() - capacity;
+//			if(itemleft>capacity) {
+//				List<Object> otruckList = new ArrayList<Object>();
 				otruckList.add(name);
 				otruckList.add(qty);
-			}
-		}
+			//}
+		//}
+		System.out.println("This is Ordinary truck list : " + otruckList);
 	}
 
 	@Override

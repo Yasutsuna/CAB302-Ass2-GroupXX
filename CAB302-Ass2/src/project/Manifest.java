@@ -50,6 +50,6 @@ public class Manifest {
 		}else {
 			truck = new RefrigeratedTruck(name,qty,cost,temp);
 		}
-		truck.putItems();		
+		truck.putItems();
 	}
 }

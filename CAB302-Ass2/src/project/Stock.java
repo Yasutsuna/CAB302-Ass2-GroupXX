@@ -143,8 +143,6 @@ public class Stock {
 					if(name.equals(sa.getName())){
 						qty -= salesQty;
 						capital += salesPrice*salesQty;
-						System.out.print("Current banlance: " +capital+"\n");
-					
 						if(qty <= reorderP) {
 							if(!(capital <= 0)) {
 								qty += orderAmount;
@@ -159,6 +157,7 @@ public class Stock {
 						}else {
 							System.out.println(sa.getName() + " more than reorder Point so Continues");
 						}
+						System.out.print("Current banlance: " +capital+"\n");
 					}
 				}
 			}
