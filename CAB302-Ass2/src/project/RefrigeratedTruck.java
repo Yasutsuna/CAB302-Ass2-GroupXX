@@ -15,6 +15,9 @@ public class RefrigeratedTruck extends Truck{
 		super(name,qty,cost,temp);
 	}
 	
+	/**
+	 * Puts the item's name and quantity into the truck
+	 */
 	@Override
 	public void putItems () {
 //	public void putItems (Item item, int quantity) throws DeliveryException {
@@ -42,6 +45,9 @@ public class RefrigeratedTruck extends Truck{
 			System.out.println("This is refrigerated truck list : " + rtruckList);
 	}
 
+	/**
+	 * Calculates the space used.
+	 */
 	@Override
 	public int spaceUsed() {
 		// TODO Auto-generated method stub
@@ -49,18 +55,28 @@ public class RefrigeratedTruck extends Truck{
 		return spaceUsing;
 	}
 	
+	/**
+	 * Calculates the space available
+	 */
 	@Override
 	public int spaceAvailable() {
 		// TODO Auto-generated method stub
 		return capacity -= spaceUsing;
+		
 	}
 	
+	/**
+	 * Gets the cost of the truck based on the space used
+	 */
 	@Override
 	public double getTruckCost() {
 		costWithTruck = Math.round(900 + 200 * (Math.pow(0.7, (double) temp/ 5)));
 		return costWithTruck;
 	}
 	
+	/**
+	 * gets the truck list
+	 */
 	@Override
 	public ArrayList<Object> getTrucklist(){
 		return rtruckList;

@@ -2,6 +2,11 @@ package project;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Jeffrey
+ * 
+ */
 public class OrdinaryTruck extends Truck{
 	
 	double costWithTruck;
@@ -14,6 +19,9 @@ public class OrdinaryTruck extends Truck{
 		super(name,qty,cost,temp);
 	}
 	
+	/**
+	 * Puts the item's name and quantity into the truck
+	 */
 	@Override
 	public void putItems() {
 		// TODO Auto-generated method stub
@@ -31,6 +39,9 @@ public class OrdinaryTruck extends Truck{
 		System.out.println("This is Ordinary truck list : " + otruckList);
 	}
 
+	/**
+	 * Calculates the space used.
+	 */
 	@Override
 	public int spaceUsed() {
 		// TODO Auto-generated method stub
@@ -38,12 +49,18 @@ public class OrdinaryTruck extends Truck{
 		return spaceUsing;
 	}
 
+	/**
+	 * Calculates the space available
+	 */
 	@Override
 	public int spaceAvailable() {
 		// TODO Auto-generated method stub
 		return capacity -= spaceUsing;
 	}
 
+	/**
+	 * Gets the cost of the truck based on the space used
+	 */
 	@Override
 	public double getTruckCost() {
 		// TODO Auto-generated method stub
@@ -51,6 +68,9 @@ public class OrdinaryTruck extends Truck{
 		return costWithTruck;
 	}
 	
+	/**
+	 * gets the truck list
+	 */
 	@Override
 	public ArrayList<Object> getTrucklist(){
 		return otruckList;

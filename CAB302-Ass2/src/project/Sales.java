@@ -2,7 +2,7 @@ package project;
 
 /**
  * 
- * @author Jeffrey
+ * @author Zhi Choon Ng
  *
  */
 public class Sales {

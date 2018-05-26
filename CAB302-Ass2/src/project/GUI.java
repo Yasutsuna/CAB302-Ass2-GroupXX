@@ -10,7 +10,11 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ * 
+ * @author Jeffrey
+ *
+ */
 public class GUI extends JFrame implements ActionListener{
 //TODO
 	//GUI Global variable using below--------------
@@ -75,7 +79,9 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//Interface Design
+	/**
+	 * The GUI Design
+	 */
 	public GUI(){
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		
@@ -153,7 +159,9 @@ public class GUI extends JFrame implements ActionListener{
     	add(combine);
 	}
 	
-	//take action when button clicked
+	/**
+	 * The action when a button is pressed
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -193,13 +201,18 @@ public class GUI extends JFrame implements ActionListener{
 		//
 	}
 	
-	//do the action when needed
+	/**
+	 * Gathers the data when the GUI Button 1 is pressed and store the item to Store
+	 */
 	public void initialFunction() {
 		store = new Store(item.getName(), quantity, item.getCost(), item.getPrice(), item.getReorder(), item.getAmount(), item.getTemp());
         storeList.add(store);
         balance = store.getTotal();
 	}
-	
+	/**
+	 * Gathers the data when the GUI Button 2 is pressed. The details will be stored in Stock
+	 * It will also get the cost of the truck used.
+	 */
 	public void manifestsFunction() {
 			stock = new Stock(balance,storeList,salesList);
 			balance = stock.getCapital();
@@ -220,14 +233,21 @@ public class GUI extends JFrame implements ActionListener{
 			printingCapital();
 	}
 	
+	/**
+	 * Displays the result of the scren
+	 */
 	public void salesFunction(){
 		// TODO Auto-generated method stub
 		appendDisplay("--------------------------Sales---------------------------\n"
 				+ "Name: " + sales.getName() + "\nQuantity:" + sales.getQty() + "\n");
 	}
 
-	//create the data of after initial
-	//table insert
+	/**
+	 * 
+	 *create the data of after initial
+	 *table insert
+	 * 
+	 */
 	private void insertTable() {
 		// TODO Auto-generated method stub
 		
@@ -251,7 +271,9 @@ public class GUI extends JFrame implements ActionListener{
 	
 	//update the data
 	
-	//table Update
+	/**
+	 * Updates the table
+	 */
 	private void updateTable() {
 		// TODO Auto-generated method stub
 		for(int i= storeList.size()-1;i>=0;i--) {
@@ -276,9 +298,11 @@ public class GUI extends JFrame implements ActionListener{
   		}
 	}
 	
-	//read csv file
-	
-	//import Function below
+	/**
+	 * Reads the csv file
+	 * @param fileName - Needs to be item_properties.csv
+	 * @throws CSVFormatException - Will throw an error if the csv format is wrong
+	 */
 	public void readFile(String fileName) throws CSVFormatException {
 		BufferedReader reader = null;
     	
@@ -334,9 +358,10 @@ public class GUI extends JFrame implements ActionListener{
         }
 	}
 	
-	//export csv file
-	
-	//export Function below
+	/**
+	 * Exports and replace the manifest.csv
+	 * @throws FileNotFoundException - Will throw if manifest.csv doesn't exist
+	 */
 	private void exportFile() throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		PrintWriter pw = new PrintWriter(new File("Manifest.csv"));
@@ -356,12 +381,18 @@ public class GUI extends JFrame implements ActionListener{
 	
 	//display function below
 	
-	//Printing Function below
+	/**
+	 * Resets the display
+	 * @param initialText - Used initially to print the text.
+	 */
 	public void resetDisplay(String initialText) {
 		display.setText(initialText);
 	}
 	
-	
+	/**
+	 * Sets the text.
+	 * @param newText - Used to update the textbox.
+	 */
 	//Printing Function below
 	public void appendDisplay(String newText) {
 		display.setText(display.getText() + newText);
@@ -369,6 +400,10 @@ public class GUI extends JFrame implements ActionListener{
 	
 	
 	//Printing Function below
+	
+	/**
+	 * Prints the capital on the GUI screen
+	 */
 	public void printingCapital() {
 		appendDisplay( "-------------------------------------------------------------\n" + 
 						"                Current Capital : " + balance + 

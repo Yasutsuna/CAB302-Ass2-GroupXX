@@ -27,6 +27,7 @@ public class Store {
 	 * @param reorder - Reorder of the item 
 	 * @param amount - Amount of the item 
 	 * @param temp - Temperature of the item 
+	 * @param quantity - Quantity of the item
 	 */
 	public Store(String name, int quantity, double cost, double price,int reorder, int amount, int temp) { //name is name, inventory is quantity
 		this.name = name;
@@ -118,7 +119,6 @@ public class Store {
 	
 	/**
 	 * Used to get the temperature of the Item after setting it above
-	 * @return the temperature of the current Item
 	 */
 	public void calculate() {
 		if(quantity == 0) {

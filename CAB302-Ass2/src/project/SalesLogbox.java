@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/**
+ * 
+ * @author Jeffrey
+ *
+ */
 public class SalesLogbox extends JFrame implements ActionListener{
 
 	/**
@@ -33,6 +38,10 @@ public class SalesLogbox extends JFrame implements ActionListener{
 	String sales4 = "sales_log_4.csv";
 	String fileName;
 	
+	/**
+	 * Used to choose which sales log to be used.
+	 * @param g
+	 */
 	public SalesLogbox(GUI g){
 		super();
 		this.g = g;
@@ -80,23 +89,51 @@ public class SalesLogbox extends JFrame implements ActionListener{
 	    setVisible(true);
 	}
 
+	/**
+	 * What happens when a button is pressed.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == okBtn) {
 			super.dispose();
 			if(sl0.isSelected()) {
-				g.readFile(sales0);
+				try {
+					g.readFile(sales0);
+				} catch (CSVFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				//passFilename(sales0);
 				//System.out.println(sales.getName());
 			}else if(sl1.isSelected()) {
-				g.readFile(sales1);
+				try {
+					g.readFile(sales1);
+				} catch (CSVFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}else if(sl2.isSelected()) {
-				g.readFile(sales2);
+				try {
+					g.readFile(sales2);
+				} catch (CSVFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}else if(sl3.isSelected()) {
-				g.readFile(sales3);
+				try {
+					g.readFile(sales3);
+				} catch (CSVFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}else if(sl4.isSelected()) {
-				g.readFile(sales4);
+				try {
+					g.readFile(sales4);
+				} catch (CSVFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}else {
 				JOptionPane.showMessageDialog(null, "Please select one of the selection");
 			}
