@@ -23,7 +23,7 @@ public class OrdinaryTruck extends Truck{
 	 * Puts the item's name and quantity into the truck
 	 */
 	@Override
-	public void putItems() {
+	public void putItems() throws DeliveryException {
 		// TODO Auto-generated method stub
 //		if(spaceUsed() <= spaceAvailable()) {
 //			this.otruckList.add(name);

@@ -19,7 +19,7 @@ public class RefrigeratedTruck extends Truck{
 	 * Puts the item's name and quantity into the truck
 	 */
 	@Override
-	public void putItems () {
+	public void putItems () throws DeliveryException {
 //	public void putItems (Item item, int quantity) throws DeliveryException {
 //		if (temp!= 0) {
 //			if (lowestTemp == 0) { //if there is no set lowestTemp
