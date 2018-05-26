@@ -75,6 +75,11 @@ public class Manifest {
 		}else {
 			truck = new RefrigeratedTruck(name,qty,cost,temp);
 		}
-		truck.putItems();
+		try {
+			truck.putItems();
+		} catch (DeliveryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

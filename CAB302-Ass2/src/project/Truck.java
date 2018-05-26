@@ -57,8 +57,9 @@ public abstract class Truck{
 	
 	/**
 	 * To put items into the truck, overridden in Orignal Truck or Refrigerated Truck
+	 * @throws DeliveryException 
 	 */
-	public abstract void putItems();
+	public abstract void putItems() throws DeliveryException;
 	
 	/**
 	 * To calculate the space used of the truck, overridden in Orignal Truck or Refrigerated Truck

@@ -34,7 +34,12 @@ public class Stock {
 		this.storeList = storeList;
 		this.salesList = salesList;
 		// TODO Auto-generated constructor stub
-		storeManage();
+		try {
+			storeManage();
+		} catch (StockException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -125,7 +130,7 @@ public class Stock {
 	 * 
 	 * @return the capital of the store.
 	 */
-	private void storeManage() {
+	private void storeManage() throws StockException {
 		// TODO Auto-generated method stub
 		//checking the Balance enough or not
 		boolean check = false;
@@ -151,8 +156,10 @@ public class Stock {
 								System.out.println("name: " + name + " and " + qty + " left");
 								//update();
 							}else {
-								System.out.println("No Enought Capital");
 								check = true;
+								System.out.println("No Enought Capital");
+								throw new StockException();
+
 							}
 						}else {
 							System.out.println(sa.getName() + " more than reorder Point so Continues");
