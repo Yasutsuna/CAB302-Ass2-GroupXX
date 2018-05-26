@@ -167,7 +167,12 @@ public class GUI extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(null, "Get Export");
 		}else if(e.getSource() == initializedBtn) {
 			selection = 1;
-			readFile(initFile);
+			try {
+				readFile(initFile);
+			} catch (CSVFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			initializedBtn.setEnabled(false);
 			//printingCapital();
 			insertTable();
@@ -274,7 +279,7 @@ public class GUI extends JFrame implements ActionListener{
 	//read csv file
 	
 	//import Function below
-	public void readFile(String fileName) {
+	public void readFile(String fileName) throws CSVFormatException {
 		BufferedReader reader = null;
     	
         try { 
@@ -286,16 +291,19 @@ public class GUI extends JFrame implements ActionListener{
                 if(itemDetail.length > 0) {
                 	//Button clicked *selection
                 	if(selection == 1) {
-                		if(itemDetail.length<6) {
+                		if(itemDetail.length==5) {
                 			item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
             					Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
             					Integer.parseInt(itemDetail[4]));
 		               		itemList.add(item);
-                		}else {
+                		}else if (itemDetail.length==6){
                				item = new Item(itemDetail[0],Double.parseDouble(itemDetail[1]),
                						Double.parseDouble(itemDetail[2]),Integer.parseInt(itemDetail[3]),
                						Integer.parseInt(itemDetail[4]),Integer.parseInt(itemDetail[5]));
     		               	itemList.add(item);   	
+                		}
+                		else {
+                			throw new CSVFormatException();
                 		}
                 		initialFunction();
                 	}else if(selection == 2) {
