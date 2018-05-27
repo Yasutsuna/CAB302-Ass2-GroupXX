@@ -33,11 +33,11 @@ public class Item {
 	/**
 	 * Used to set the details of the item from item_properties.csv when it have a temperature
 	 * 
-	 * @param name - Name of the item ([name] of item_properties.csv)
-	 * @param cost - cost of the item ([cost] of item_properties.csv)
-	 * @param price - price of the item ([price] of item_properties.csv)
-	 * @param reorder - reorder point of the item ([reorder point] of item_properties.csv)
-	 * @param amount - reorder amount of the item ([reorder amount] of item_properties.csv)
+	 * @param name2 - Name of the item ([name] of item_properties.csv)
+	 * @param cost2 - cost of the item ([cost] of item_properties.csv)
+	 * @param price2 - price of the item ([price] of item_properties.csv)
+	 * @param reorder2 - reorder point of the item ([reorder point] of item_properties.csv)
+	 * @param amount2 - reorder amount of the item ([reorder amount] of item_properties.csv)
 	 * @param temp - temperature of the item ([temperature] of item_properties.csv)
 	 */
 	public Item(String name2, double cost2, double price2, int reorder2, int amount2, int temp) {
