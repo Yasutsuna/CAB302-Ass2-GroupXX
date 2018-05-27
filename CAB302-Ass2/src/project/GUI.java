@@ -366,14 +366,26 @@ public class GUI extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		PrintWriter pw = new PrintWriter(new File("Manifest.csv"));
         StringBuilder sb = new StringBuilder();
-        sb.append(">Refrigarated");
-        sb.append("\n");
-        sb.append(item.getName());
-        sb.append(',');
-        sb.append(item.getAmount());
-        sb.append("\n");
-        sb.append(">Ordinary");
-        sb.append("\n");
+        
+        sb.append(">Refrigarated\n");
+        for(Store s : stock.newdataList) {
+        	if(s.getTemp() != 0) {
+        		sb.append(s.getName());
+        		sb.append(',');
+        		sb.append(s.getQuantity());
+        		sb.append("\n");
+        	}
+        	
+        }
+        sb.append("\n>Ordinary\n");
+        for(Store st : stock.newdataList) {
+        	if(st.getTemp() == 0) {
+        		sb.append(st.getName());
+        		sb.append(',');
+        		sb.append(st.getQuantity());
+        		sb.append("\n");
+        	}
+        }
 
         pw.write(sb.toString());
         pw.close();
